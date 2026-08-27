@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
-import Title from "../components/Title";
 import ProductItem from "../components/ProductItem";
+import { motion } from "framer-motion";
 import { 
   SlidersHorizontal, 
   ChevronDown, 
   X, 
-  ArrowUpDown, 
-  Search, 
   PackageOpen,
-  Check
+  Zap,
+  Sparkles
 } from "lucide-react";
 
 const Collection = () => {
@@ -94,125 +93,125 @@ const Collection = () => {
   const subCategoriesList = ["Topwear", "Bottomwear", "Winterwear"];
 
   return (
-    <div className="py-8 sm:py-12 border-t border-zinc-200/70">
+    <div className="py-4 sm:py-6">
       
       {/* Mobile Filter Header Toggle */}
-      <div className="flex sm:hidden items-center justify-between pb-4 mb-4 border-b border-zinc-200">
+      <div className="flex sm:hidden items-center justify-between pb-3 mb-3 border-b border-slate-200">
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center gap-2 px-4 py-2 bg-zinc-900 text-white text-xs font-semibold rounded-xl"
+          className="flex items-center gap-2 px-4 py-2 bg-[#0C831F] text-white text-xs font-bold rounded-xl"
         >
           <SlidersHorizontal className="w-3.5 h-3.5" />
-          <span>{showFilters ? "Hide Filters" : "Filter & Refine"}</span>
+          <span>{showFilters ? "Hide Filters" : "Filter Products"}</span>
         </button>
 
-        <span className="text-xs text-zinc-500 font-medium">
+        <span className="text-xs text-slate-600 font-bold">
           {filterProducts.length} Items
         </span>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-8 lg:gap-12">
+      <div className="flex flex-col sm:flex-row gap-6">
         
         {/* ------------ Filter Sidebar ----------- */}
-        <aside className={`w-full sm:w-64 shrink-0 ${showFilters ? "block" : "hidden sm:block"}`}>
-          <div className="sticky top-28 space-y-6">
+        <aside className={`w-full sm:w-60 shrink-0 ${showFilters ? "block" : "hidden sm:block"}`}>
+          <div className="sticky top-32 space-y-4">
             
             {/* Filter Header with Clear Action */}
-            <div className="flex items-center justify-between pb-3 border-b border-zinc-200">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-200">
               <div className="flex items-center gap-2">
-                <SlidersHorizontal className="w-4 h-4 text-zinc-900" />
-                <span className="text-xs font-bold tracking-widest uppercase text-zinc-900">
+                <SlidersHorizontal className="w-4 h-4 text-[#0C831F]" />
+                <span className="text-xs font-black tracking-wider uppercase text-slate-900">
                   Filters
                 </span>
               </div>
               {(category.length > 0 || subCategory.length > 0) && (
                 <button
                   onClick={clearAllFilters}
-                  className="text-[11px] text-zinc-500 hover:text-zinc-950 underline font-medium"
+                  className="text-[11px] text-[#0C831F] font-bold hover:underline"
                 >
-                  Reset All
+                  Reset
                 </button>
               )}
             </div>
 
             {/* Active Filter Chips */}
             {(category.length > 0 || subCategory.length > 0) && (
-              <div className="flex flex-wrap gap-1.5 pt-1">
+              <div className="flex flex-wrap gap-1.5">
                 {category.map((cat) => (
                   <span
                     key={cat}
                     onClick={() => setCategory((prev) => prev.filter((i) => i !== cat))}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-zinc-100 text-zinc-800 text-[11px] font-medium cursor-pointer hover:bg-zinc-200 transition-colors"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-100 text-[#0C831F] text-[11px] font-bold cursor-pointer hover:bg-emerald-200"
                   >
                     {cat}
-                    <X className="w-3 h-3 text-zinc-500" />
+                    <X className="w-3 h-3" />
                   </span>
                 ))}
                 {subCategory.map((sub) => (
                   <span
                     key={sub}
                     onClick={() => setSubCategory((prev) => prev.filter((i) => i !== sub))}
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-zinc-100 text-zinc-800 text-[11px] font-medium cursor-pointer hover:bg-zinc-200 transition-colors"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-100 text-[#0C831F] text-[11px] font-bold cursor-pointer hover:bg-emerald-200"
                   >
                     {sub}
-                    <X className="w-3 h-3 text-zinc-500" />
+                    <X className="w-3 h-3" />
                   </span>
                 ))}
               </div>
             )}
 
             {/* Category Filter Box */}
-            <div className="p-5 rounded-2xl bg-white border border-zinc-200/80 shadow-xs">
-              <p className="text-xs font-bold tracking-wider text-zinc-900 uppercase mb-4">
+            <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
+              <p className="text-xs font-black tracking-wider text-slate-900 uppercase mb-3">
                 Categories
               </p>
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {categoriesList.map((cat) => (
                   <label
                     key={cat}
-                    className="flex items-center gap-3 text-xs text-zinc-600 hover:text-zinc-950 cursor-pointer select-none"
+                    className="flex items-center gap-2.5 text-xs text-slate-700 font-medium hover:text-[#0C831F] cursor-pointer select-none"
                   >
                     <input
                       type="checkbox"
                       value={cat}
                       checked={category.includes(cat)}
                       onChange={toggleCategory}
-                      className="w-4 h-4 rounded border-zinc-300 text-zinc-950 focus:ring-zinc-950/20 cursor-pointer accent-zinc-950"
+                      className="w-4 h-4 rounded border-slate-300 text-[#0C831F] focus:ring-[#0C831F] cursor-pointer accent-[#0C831F]"
                     />
-                    <span className="font-normal">{cat}</span>
+                    <span>{cat}</span>
                   </label>
                 ))}
               </div>
             </div>
 
-            {/* Type / Subcategory Filter Box */}
-            <div className="p-5 rounded-2xl bg-white border border-zinc-200/80 shadow-xs">
-              <p className="text-xs font-bold tracking-wider text-zinc-900 uppercase mb-4">
+            {/* SubCategory Filter Box */}
+            <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
+              <p className="text-xs font-black tracking-wider text-slate-900 uppercase mb-3">
                 Garment Type
               </p>
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {subCategoriesList.map((sub) => (
                   <label
                     key={sub}
-                    className="flex items-center gap-3 text-xs text-zinc-600 hover:text-zinc-950 cursor-pointer select-none"
+                    className="flex items-center gap-2.5 text-xs text-slate-700 font-medium hover:text-[#0C831F] cursor-pointer select-none"
                   >
                     <input
                       type="checkbox"
                       value={sub}
                       checked={subCategory.includes(sub)}
                       onChange={toggleSubCategory}
-                      className="w-4 h-4 rounded border-zinc-300 text-zinc-950 focus:ring-zinc-950/20 cursor-pointer accent-zinc-950"
+                      className="w-4 h-4 rounded border-slate-300 text-[#0C831F] focus:ring-[#0C831F] cursor-pointer accent-[#0C831F]"
                     />
-                    <span className="font-normal">{sub}</span>
+                    <span>{sub}</span>
                   </label>
                 ))}
               </div>
             </div>
 
-            {/* Guarantee Note */}
-            <div className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200/60 text-[11px] text-zinc-500 leading-relaxed font-light">
-              <p className="font-semibold text-zinc-800 mb-0.5">Ethical Craftsmanship</p>
-              All garments are pre-shrunk, skin-friendly, and inspected for supreme stitch durability.
+            {/* Quick Delivery Guarantee Note */}
+            <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 font-medium flex items-center gap-2">
+              <Zap className="w-4 h-4 text-amber-600 fill-amber-500 shrink-0" />
+              <span>All items dispatch within 8 minutes!</span>
             </div>
 
           </div>
@@ -222,58 +221,73 @@ const Collection = () => {
         <main className="flex-1">
           
           {/* Header Row: Title & Sort Dropdown */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-zinc-200/80">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-200">
             <div>
-              <div className="inline-flex items-center gap-2">
-                <Title text1="CURATED" text2="CATALOG" />
+              <div className="flex items-center gap-2">
+                <span className="bg-[#0C831F] text-amber-300 text-[10px] font-black px-2 py-0.5 rounded uppercase">
+                  ⚡ FAST CATALOG
+                </span>
+                <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                  All 8-Min Express Items
+                </h1>
               </div>
-              <p className="text-xs text-zinc-400 font-light -mt-4">
-                Showing <span className="font-semibold text-zinc-800">{filterProducts.length}</span> curated pieces
+              <p className="text-xs text-slate-500 font-semibold mt-0.5">
+                Showing <span className="text-[#0C831F]">{filterProducts.length}</span> products
               </p>
             </div>
 
             {/* Sort Dropdown */}
             <div className="flex items-center gap-2">
-              <span className="text-xs text-zinc-400 font-medium hidden sm:inline">Sort:</span>
+              <span className="text-xs text-slate-500 font-bold hidden sm:inline">Sort:</span>
               <div className="relative">
                 <select
                   value={sortType}
                   onChange={(e) => setSortType(e.target.value)}
-                  className="appearance-none bg-white border border-zinc-200/80 rounded-xl px-4 py-2.5 pr-8 text-xs font-semibold text-zinc-800 focus:outline-none focus:border-zinc-900 transition-colors shadow-xs cursor-pointer"
+                  className="appearance-none bg-white border border-slate-200 rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-slate-800 focus:outline-none focus:border-[#0C831F] transition-colors shadow-xs cursor-pointer"
                 >
                   <option value="relevant">Featured / Relevant</option>
                   <option value="low-high">Price: Low to High</option>
                   <option value="high-low">Price: High to Low</option>
                 </select>
-                <ChevronDown className="w-3.5 h-3.5 text-zinc-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <ChevronDown className="w-3.5 h-3.5 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
               </div>
             </div>
           </div>
 
-          {/* Product Grid */}
+          {/* Product Grid with Framer Motion Layout */}
           {filterProducts.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6">
+            <motion.div 
+              layout
+              className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4"
+            >
               {filterProducts.map((item, index) => (
-                <ProductItem key={item._id || index} {...item} />
+                <motion.div
+                  key={item._id || index}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.03 }}
+                >
+                  <ProductItem {...item} />
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           ) : (
             /* Empty State */
-            <div className="text-center py-24 px-4 flex flex-col items-center justify-center bg-white rounded-3xl border border-zinc-200/70 my-8">
-              <div className="w-16 h-16 rounded-full bg-zinc-100 flex items-center justify-center text-zinc-400 mb-4">
-                <PackageOpen className="w-8 h-8" />
+            <div className="text-center py-16 px-4 flex flex-col items-center justify-center bg-white rounded-3xl border border-slate-200 my-4">
+              <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 mb-3">
+                <PackageOpen className="w-8 h-8 text-slate-400" />
               </div>
-              <h3 className="text-base font-semibold text-zinc-900 mb-1">
-                No matching apparel found
+              <h3 className="text-base font-bold text-slate-900 mb-1">
+                No matching items found
               </h3>
-              <p className="text-xs text-zinc-500 max-w-sm mb-6 font-light">
-                We couldn't find any products matching your current search or filter combination.
+              <p className="text-xs text-slate-500 max-w-sm mb-4 font-medium">
+                Try clearing your search query or reset category filters.
               </p>
               <button
                 onClick={clearAllFilters}
-                className="px-6 py-2.5 bg-zinc-950 text-white rounded-full text-xs font-semibold tracking-wider uppercase hover:bg-zinc-800 transition-colors"
+                className="px-5 py-2.5 bg-[#0C831F] text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-emerald-700 transition-colors shadow-xs"
               >
-                Clear All Filters
+                Clear Filters
               </button>
             </div>
           )}
@@ -285,4 +299,3 @@ const Collection = () => {
 };
 
 export default Collection;
-

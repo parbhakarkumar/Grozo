@@ -1,99 +1,108 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { assets } from "../assets/assets";
-import { ArrowRight, Sparkles, ShieldCheck, Award } from "lucide-react";
+import { motion } from "framer-motion";
+import { Zap, Clock, ShieldCheck, Tag, ShoppingBag, ArrowRight, Sparkles } from "lucide-react";
+
+const quickCategories = [
+  { name: "Electronics", icon: "⚡", bg: "bg-blue-50 text-blue-600", tag: "Hot" },
+  { name: "Clothing", icon: "👕", bg: "bg-amber-50 text-amber-600", tag: "Sale" },
+  { name: "Footwear", icon: "👟", bg: "bg-emerald-50 text-emerald-600", tag: "New" },
+  { name: "Snacks & Drinks", icon: "🥤", bg: "bg-purple-50 text-purple-600", tag: "Quick" },
+  { name: "Beauty & Care", icon: "✨", bg: "bg-pink-50 text-pink-600", tag: "Popular" },
+];
 
 const Hero = () => {
   return (
-    <section className="relative my-4 sm:my-8 rounded-3xl overflow-hidden bg-gradient-to-br from-zinc-100 via-stone-50 to-zinc-200/60 border border-zinc-200/80 shadow-subtle">
-      <div className="flex flex-col-reverse lg:flex-row items-center justify-between min-h-[540px] sm:min-h-[600px]">
-        
-        {/* Left Editorial Text Content */}
-        <div className="w-full lg:w-1/2 p-8 sm:p-12 lg:p-16 flex flex-col justify-center items-start z-10">
-          
-          {/* Subtle Tag Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-zinc-200/80 text-[11px] font-semibold tracking-widest text-zinc-800 uppercase mb-6 shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            <span>Autumn / Winter 2026 Collection</span>
-          </div>
+    <section className="my-3 space-y-4">
+      {/* 1. Main Blinkit/Zepto Style Banner */}
+      <motion.div 
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#0C831F] via-emerald-800 to-slate-900 text-white p-6 sm:p-10 shadow-lg border border-emerald-600/30"
+      >
+        {/* Background Decorative Circles */}
+        <div className="absolute -top-12 -right-12 w-64 h-64 bg-amber-400/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-12 -left-12 w-64 h-64 bg-emerald-400/20 rounded-full blur-3xl pointer-events-none" />
 
-          {/* Main Editorial Headline */}
-          <h1 className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-zinc-950 font-normal leading-[1.12] tracking-tight mb-6">
-            Timeless Elegance, <br />
-            <span className="italic font-light text-zinc-700">Effortless Style.</span>
-          </h1>
-
-          {/* Description */}
-          <p className="text-zinc-600 text-sm sm:text-base leading-relaxed max-w-md mb-8 font-light">
-            Curated contemporary essentials meticulously crafted with sustainable organic cotton and premium tailoring for the modern wardrobe.
-          </p>
-
-          {/* Action CTAs */}
-          <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
-            <Link
-              to="/collection"
-              className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-zinc-950 text-white rounded-full text-xs font-semibold tracking-widest uppercase hover:bg-zinc-800 transition-all shadow-md hover:shadow-xl active:scale-[0.98]"
-            >
-              <span>Explore Collection</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-
-            <Link
-              to="/about"
-              className="inline-flex items-center justify-center px-6 py-4 rounded-full border border-zinc-300 text-zinc-800 text-xs font-semibold tracking-widest uppercase hover:border-zinc-950 hover:bg-white transition-all active:scale-[0.98]"
-            >
-              Our Philosophy
-            </Link>
-          </div>
-
-          {/* Floating Trust Metrics */}
-          <div className="mt-12 pt-8 border-t border-zinc-200/80 flex items-center gap-8 w-full">
-            <div>
-              <p className="text-2xl font-bold text-zinc-950 font-serif">50k+</p>
-              <p className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium">Orders Delivered</p>
+        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-4 max-w-xl text-center md:text-left">
+            <div className="inline-flex items-center gap-2 bg-amber-400 text-emerald-950 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider shadow-sm">
+              <Zap className="w-3.5 h-3.5 fill-emerald-950" />
+              <span>Grozo SuperFast — 8 to 10 Mins Delivery</span>
             </div>
-            <div className="w-[1px] h-8 bg-zinc-200"></div>
-            <div>
-              <p className="text-2xl font-bold text-zinc-950 font-serif">4.9/5</p>
-              <p className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium">Customer Rating</p>
-            </div>
-            <div className="w-[1px] h-8 bg-zinc-200"></div>
-            <div>
-              <p className="text-2xl font-bold text-zinc-950 font-serif">100%</p>
-              <p className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium">Pure Cotton</p>
+
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight">
+              Everything Delivered <br className="hidden sm:inline" />
+              <span className="text-amber-300">In 8 Minutes.</span>
+            </h1>
+
+            <p className="text-emerald-100 text-sm sm:text-base font-medium max-w-md">
+              Order fresh groceries, trendy fashion, electronics, and daily essentials delivered to your doorstep in minutes.
+            </p>
+
+            <div className="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-3">
+              <Link
+                to="/collection"
+                className="group inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-emerald-950 font-black px-6 py-3 rounded-2xl text-xs sm:text-sm uppercase tracking-wider transition-all shadow-md active:scale-95"
+              >
+                <span>Order Now</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              
+              <div className="flex items-center gap-2 text-xs font-bold text-emerald-200 px-3 py-2 bg-white/10 rounded-xl backdrop-blur-xs">
+                <Clock className="w-4 h-4 text-amber-300" />
+                <span>Average Speed: <strong>7m 42s</strong></span>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Right Hero Image Showcase */}
-        <div className="w-full lg:w-1/2 relative flex items-center justify-center p-6 sm:p-10 lg:p-0">
-          <div className="relative w-full max-w-md lg:max-w-none h-[380px] sm:h-[480px] lg:h-[580px] overflow-hidden rounded-2xl lg:rounded-none">
-            <img
-              className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700 ease-out"
-              src={assets.hero_img}
-              alt="Cartivo Autumn / Winter Collection"
-            />
-
-            {/* Subtle Gradient Vignette */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
-
-            {/* Floating Quality Badge */}
-            <div className="absolute bottom-6 right-6 glass-card px-4 py-3 rounded-2xl shadow-luxury flex items-center gap-3 animate-slide-up hidden sm:flex">
-              <div className="w-10 h-10 rounded-xl bg-zinc-950 text-white flex items-center justify-center">
-                <Award className="w-5 h-5" />
+          {/* Banner Graphic Card */}
+          <div className="w-full md:w-auto flex justify-center">
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 sm:p-6 text-white text-center space-y-3 shadow-2xl max-w-xs">
+              <div className="w-16 h-16 bg-amber-400 text-emerald-950 rounded-2xl mx-auto flex items-center justify-center font-black text-3xl shadow-lg">
+                ⚡
               </div>
               <div>
-                <p className="text-xs font-bold text-zinc-950">Masterpiece Edition</p>
-                <p className="text-[10px] text-zinc-500 font-medium">Handcrafted with precision</p>
+                <p className="text-xs font-extrabold uppercase tracking-widest text-amber-300">Lightning Pass</p>
+                <p className="text-xl font-black">₹0 Delivery Fee</p>
+                <p className="text-[11px] text-emerald-100 font-medium">On your first 3 orders today</p>
               </div>
             </div>
           </div>
         </div>
+      </motion.div>
 
+      {/* 2. Quick Category Chips Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        {quickCategories.map((cat, idx) => (
+          <motion.div
+            key={cat.name}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: idx * 0.08 }}
+          >
+            <Link
+              to="/collection"
+              className="bg-white hover:bg-emerald-50/60 border border-slate-200/80 hover:border-emerald-500/50 p-3 rounded-2xl flex items-center gap-3 shadow-xs hover:shadow-md transition-all group"
+            >
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 font-bold ${cat.bg}`}>
+                {cat.icon}
+              </div>
+              <div className="flex flex-col overflow-hidden">
+                <span className="text-xs font-bold text-slate-900 truncate group-hover:text-emerald-700">
+                  {cat.name}
+                </span>
+                <span className="text-[10px] text-emerald-700 font-extrabold uppercase">
+                  {cat.tag} • 8 mins
+                </span>
+              </div>
+            </Link>
+          </motion.div>
+        ))}
       </div>
     </section>
   );
 };
 
 export default Hero;
-

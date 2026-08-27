@@ -3,9 +3,9 @@ import { ShopContext } from "../context/ShopContext";
 import { Link } from "react-router-dom";
 import ProductItem from "./ProductItem";
 import { motion } from "framer-motion";
-import { Zap, ArrowRight } from "lucide-react";
+import { Zap, ArrowRight, Sparkles } from "lucide-react";
 
-const LatestCollection = () => {
+const LatestCollections = () => {
   const { products } = useContext(ShopContext);
   const [latestProducts, setLatestProducts] = useState([]);
   const [activeTab, setActiveTab] = useState("All");
@@ -87,4 +87,4 @@ const LatestCollection = () => {
   );
 };
 
-export default LatestCollection;
+export default LatestCollections;

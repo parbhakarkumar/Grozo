@@ -17,6 +17,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Verify from "./Pages/Verify";
 
+import FloatingCartBar from "./components/FloatingCartBar";
+
 // Component to scroll to top automatically on every route change
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -28,7 +30,7 @@ const ScrollToTop = () => {
 
 const App = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAFAFA] text-zinc-900 font-sans selection:bg-zinc-950 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#F4F6F8] text-slate-900 font-sans pb-16 sm:pb-20">
       <ScrollToTop />
       <ToastContainer
         position="bottom-right"
@@ -40,7 +42,7 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="dark"
+        theme="colored"
       />
       
       {/* Sticky Full-width Navigation & Search */}
@@ -48,7 +50,7 @@ const App = () => {
       <SearchBar />
 
       {/* Main Page Container */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <main className="flex-1 w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/collection" element={<Collection />} />
@@ -64,6 +66,8 @@ const App = () => {
         </Routes>
       </main>
 
+      {/* Floating Bottom Quick-Commerce Cart Bar */}
+      <FloatingCartBar />
 
       {/* Footer Container */}
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
