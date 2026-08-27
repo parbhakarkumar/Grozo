@@ -1,60 +1,3 @@
-import p_img1 from './p_img1.png'
-import p_img2_1 from './p_img2_1.png'
-import p_img2_2 from './p_img2_2.png'
-import p_img2_3 from './p_img2_3.png'
-import p_img2_4 from './p_img2_4.png'
-import p_img3 from './p_img3.png'
-import p_img4 from './p_img4.png'
-import p_img5 from './p_img5.png'
-import p_img6 from './p_img6.png'
-import p_img7 from './p_img7.png'
-import p_img8 from './p_img8.png'
-import p_img9 from './p_img9.png'
-import p_img10 from './p_img10.png'
-import p_img11 from './p_img11.png'
-import p_img12 from './p_img12.png'
-import p_img13 from './p_img13.png'
-import p_img14 from './p_img14.png'
-import p_img15 from './p_img15.png'
-import p_img16 from './p_img16.png'
-import p_img17 from './p_img17.png'
-import p_img18 from './p_img18.png'
-import p_img19 from './p_img19.png'
-import p_img20 from './p_img20.png'
-import p_img21 from './p_img21.png'
-import p_img22 from './p_img22.png'
-import p_img23 from './p_img23.png'
-import p_img24 from './p_img24.png'
-import p_img25 from './p_img25.png'
-import p_img26 from './p_img26.png'
-import p_img27 from './p_img27.png'
-import p_img28 from './p_img28.png'
-import p_img29 from './p_img29.png'
-import p_img30 from './p_img30.png'
-import p_img31 from './p_img31.png'
-import p_img32 from './p_img32.png'
-import p_img33 from './p_img33.png'
-import p_img34 from './p_img34.png'
-import p_img35 from './p_img35.png'
-import p_img36 from './p_img36.png'
-import p_img37 from './p_img37.png'
-import p_img38 from './p_img38.png'
-import p_img39 from './p_img39.png'
-import p_img40 from './p_img40.png'
-import p_img41 from './p_img41.png'
-import p_img42 from './p_img42.png'
-import p_img43 from './p_img43.png'
-import p_img44 from './p_img44.png'
-import p_img45 from './p_img45.png'
-import p_img46 from './p_img46.png'
-import p_img47 from './p_img47.png'
-import p_img48 from './p_img48.png'
-import p_img49 from './p_img49.png'
-import p_img50 from './p_img50.png'
-import p_img51 from './p_img51.png'
-import p_img52 from './p_img52.png'
-
-
 import logo from './logo.png'
 import hero_img from './hero_img.png'
 import cart_icon from './cart_icon.png'
@@ -97,627 +40,291 @@ export const assets = {
 
 export const products = [
     {
-        _id: "aaaaa",
-        name: "Women Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 100,
-        image: [p_img1,p_img2_2,p_img2_3,p_img2_4],
-        category: "Women",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L"],
+        _id: "groc_001",
+        name: "Everest Garam Masala",
+        description: "A perfect blend of 13 rich spices, ground to perfection for authentic Indian curries and aromatic gravies.",
+        price: 78,
+        image: ["https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=800&auto=format&fit=crop&q=80"],
+        category: "Masala & Spices",
+        subCategory: "Cooking Essentials",
+        sizes: ["100g", "200g", "500g"],
         date: 1716634345448,
         bestseller: true
     },
     {
-        _id: "aaaab",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 200,
-        image: [p_img2_1,p_img2_2,p_img2_3,p_img2_4],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["M", "L", "XL"],
+        _id: "groc_002",
+        name: "MDH Deggi Mirch Powder",
+        description: "Finely ground blend of specially selected red peppers that imparts a natural vibrant red color and mild spiciness.",
+        price: 95,
+        image: ["https://images.unsplash.com/photo-1599909625345-4e78a6ff6078?w=800&auto=format&fit=crop&q=80"],
+        category: "Masala & Spices",
+        subCategory: "Cooking Essentials",
+        sizes: ["100g", "250g"],
         date: 1716621345448,
         bestseller: true
     },
     {
-        _id: "aaaac",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 220,
-        image: [p_img3],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "L", "XL"],
+        _id: "groc_003",
+        name: "Tata Sampann Turmeric / Haldi Powder",
+        description: "100% pure turmeric with guaranteed minimum 3% curcumin content, providing high immunity and vibrant golden color.",
+        price: 62,
+        image: ["https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=800&auto=format&fit=crop&q=80"],
+        category: "Masala & Spices",
+        subCategory: "Cooking Essentials",
+        sizes: ["200g", "500g"],
         date: 1716234545448,
         bestseller: true
     },
     {
-        _id: "aaaad",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 110,
-        image: [p_img4],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "XXL"],
-        date: 1716621345448,
-        bestseller: true
-    },
-    {
-        _id: "aaaae",
-        name: "Women Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 130,
-        image: [p_img5],
-        category: "Women",
-        subCategory: "Topwear",
-        sizes: ["M", "L", "XL"],
-        date: 1716622345448,
-        bestseller: true
-    },
-    {
-        _id: "aaaaf",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 140,
-        image: [p_img6],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "L", "XL"],
-        date: 1716623423448,
-        bestseller: true
-    },
-    {
-        _id: "aaaag",
-        name: "Men Tapered Fit Flat-Front Trousers",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 190,
-        image: [p_img7],
-        category: "Men",
-        subCategory: "Bottomwear",
-        sizes: ["S", "L", "XL"],
+        _id: "groc_004",
+        name: "Catch Coriander / Dhaniya Powder",
+        description: "Aromatic ground coriander seeds packed with essential oils, adding earthy freshness and thick texture to gravies.",
+        price: 58,
+        image: ["https://images.unsplash.com/photo-1509358271058-acd22cc93898?w=800&auto=format&fit=crop&q=80"],
+        category: "Masala & Spices",
+        subCategory: "Cooking Essentials",
+        sizes: ["200g", "500g"],
         date: 1716621542448,
         bestseller: false
     },
     {
-        _id: "aaaah",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 140,
-        image: [p_img8],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716622345448,
-        bestseller: false
-    },
-    {
-        _id: "aaaai",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 100,
-        image: [p_img9],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["M", "L", "XL"],
-        date: 1716621235448,
-        bestseller: false
-    },
-    {
-        _id: "aaaaj",
-        name: "Men Tapered Fit Flat-Front Trousers",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 110,
-        image: [p_img10],
-        category: "Men",
-        subCategory: "Bottomwear",
-        sizes: ["S", "L", "XL"],
+        _id: "groc_005",
+        name: "MDH Chunky Chaat Masala",
+        description: "Tangy and savory seasoning spice powder perfect for salads, fruits, street food, and finger snacks.",
+        price: 72,
+        image: ["https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=800&auto=format&fit=crop&q=80"],
+        category: "Masala & Spices",
+        subCategory: "Cooking Essentials",
+        sizes: ["100g"],
         date: 1716622235448,
-        bestseller: false
+        bestseller: true
     },
     {
-        _id: "aaaak",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 120,
-        image: [p_img11],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L"],
+        _id: "groc_006",
+        name: "Tata Salt Vacuum Evaporated Iodized",
+        description: "India's most trusted vacuum-evaporated iodized salt, providing pure taste and essential daily iodine nutrition.",
+        price: 28,
+        image: ["https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=800&auto=format&fit=crop&q=80"],
+        category: "Masala & Spices",
+        subCategory: "Daily Essentials",
+        sizes: ["1kg", "2kg"],
+        date: 1716621545448,
+        bestseller: true
+    },
+    {
+        _id: "groc_007",
+        name: "Royal Whole Cumin / Jeera Seeds",
+        description: "Cleaned and sorted unadulterated cumin seeds with intense earthy aroma and high essential oil content.",
+        price: 65,
+        image: ["https://images.unsplash.com/photo-1509358271058-acd22cc93898?w=800&auto=format&fit=crop&q=80"],
+        category: "Masala & Spices",
+        subCategory: "Cooking Essentials",
+        sizes: ["100g", "250g"],
         date: 1716623345448,
         bestseller: false
     },
     {
-        _id: "aaaal",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 150,
-        image: [p_img12],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
+        _id: "groc_008",
+        name: "Royal Green Cardamom / Choti Elaichi",
+        description: "Hand-picked whole green cardamom pods with intense sweet-spicy aroma, ideal for tea, sweets, and biryani.",
+        price: 145,
+        image: ["https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=800&auto=format&fit=crop&q=80"],
+        category: "Masala & Spices",
+        subCategory: "Cooking Essentials",
+        sizes: ["50g", "100g"],
         date: 1716624445448,
         bestseller: false
     },
     {
-        _id: "aaaam",
-        name: "Women Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 130,
-        image: [p_img13],
-        category: "Women",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
+        _id: "groc_009",
+        name: "Aashirvaad Superior MP Shudh Chakki Atta",
+        description: "100% whole wheat flour made from grain sourced from MP farms. Makes super soft rotis that stay fresh longer.",
+        price: 245,
+        image: ["https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&auto=format&fit=crop&q=80"],
+        category: "Atta, Rice & Oil",
+        subCategory: "Daily Essentials",
+        sizes: ["1kg", "5kg", "10kg"],
         date: 1716625545448,
-        bestseller: false
+        bestseller: true
     },
     {
-        _id: "aaaan",
-        name: "Boy Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 160,
-        image: [p_img14],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
+        _id: "groc_010",
+        name: "Daawat Rozana Super Basmati Rice",
+        description: "Aged long-grain basmati rice with delightful aroma and fluffy non-sticky texture, perfect for everyday meals.",
+        price: 125,
+        image: ["https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&auto=format&fit=crop&q=80"],
+        category: "Atta, Rice & Oil",
+        subCategory: "Daily Essentials",
+        sizes: ["1kg", "5kg"],
         date: 1716626645448,
-        bestseller: false
+        bestseller: true
     },
     {
-        _id: "aaaao",
-        name: "Men Tapered Fit Flat-Front Trousers",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 140,
-        image: [p_img15],
-        category: "Men",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
+        _id: "groc_011",
+        name: "Tata Sampann Unpolished Toor / Arhar Dal",
+        description: "Unpolished toor dal rich in natural protein and dietary fiber without any chemical polishing or artificial colors.",
+        price: 168,
+        image: ["https://images.unsplash.com/photo-1585994192701-f1a505c817ea?w=800&auto=format&fit=crop&q=80"],
+        category: "Atta, Rice & Oil",
+        subCategory: "Daily Essentials",
+        sizes: ["500g", "1kg", "2kg"],
         date: 1716627745448,
-        bestseller: false
+        bestseller: true
     },
     {
-        _id: "aaaap",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 170,
-        image: [p_img16],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
+        _id: "groc_012",
+        name: "Fortune Sunlite Refined Sunflower Oil",
+        description: "Light and healthy refined sunflower oil enriched with Vitamins A & D, ideal for daily deep and shallow cooking.",
+        price: 142,
+        image: ["https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&auto=format&fit=crop&q=80"],
+        category: "Atta, Rice & Oil",
+        subCategory: "Cooking Essentials",
+        sizes: ["1L", "5L"],
         date: 1716628845448,
-        bestseller: false
+        bestseller: true
     },
     {
-        _id: "aaaaq",
-        name: "Men Tapered Fit Flat-Front Trousers",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 150,
-        image: [p_img17],
-        category: "Men",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
+        _id: "groc_013",
+        name: "Fortune Premium Kachi Ghani Mustard Oil",
+        description: "Cold-pressed pure mustard oil with strong pungency and traditional taste, ideal for pickling and curries.",
+        price: 155,
+        image: ["https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&auto=format&fit=crop&q=80"],
+        category: "Atta, Rice & Oil",
+        subCategory: "Cooking Essentials",
+        sizes: ["1L", "2L"],
         date: 1716629945448,
         bestseller: false
     },
     {
-        _id: "aaaar",
-        name: "Boy Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 180,
-        image: [p_img18],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716631045448,
-        bestseller: false
+        _id: "groc_014",
+        name: "Amul Taaza Fresh Toned Milk",
+        description: "Pasteurized homogenized toned milk with 3.0% fat and 8.5% SNF. Wholesome and nutritious for the entire family.",
+        price: 27,
+        image: ["https://images.unsplash.com/photo-1550583724-b2692b85b150?w=800&auto=format&fit=crop&q=80"],
+        category: "Dairy & Breakfast",
+        subCategory: "Daily Essentials",
+        sizes: ["500ml", "1L"],
+        date: 1716631145448,
+        bestseller: true
     },
     {
-        _id: "aaaas",
-        name: "Boy Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 160,
-        image: [p_img19],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716632145448,
-        bestseller: false
+        _id: "groc_015",
+        name: "Amul Pasteurized Salted Butter",
+        description: "The iconic Utterly Butterly Delicious salted butter made from fresh cream, perfect for toast, parathas, and baking.",
+        price: 58,
+        image: ["https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=800&auto=format&fit=crop&q=80"],
+        category: "Dairy & Breakfast",
+        subCategory: "Daily Essentials",
+        sizes: ["100g", "500g"],
+        date: 1716632245448,
+        bestseller: true
     },
     {
-        _id: "aaaat",
-        name: "Women Palazzo Pants with Waist Belt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 190,
-        image: [p_img20],
-        category: "Women",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716633245448,
-        bestseller: false
+        _id: "groc_016",
+        name: "Britannia 100% Whole Wheat Bread",
+        description: "Soft, wholesome brown bread baked with 100% whole wheat grains and rich dietary fiber for a healthy morning start.",
+        price: 50,
+        image: ["https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&auto=format&fit=crop&q=80"],
+        category: "Dairy & Breakfast",
+        subCategory: "Daily Essentials",
+        sizes: ["400g"],
+        date: 1716633345448,
+        bestseller: true
     },
     {
-        _id: "aaaau",
-        name: "Women Zip-Front Relaxed Fit Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 170,
-        image: [p_img21],
-        category: "Women",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716634345448,
-        bestseller: false
+        _id: "groc_017",
+        name: "Mother Dairy Classic Fresh Paneer",
+        description: "Soft and spongy fresh cottage cheese made from pasteurized cow and buffalo milk, high in protein.",
+        price: 90,
+        image: ["https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=800&auto=format&fit=crop&q=80"],
+        category: "Dairy & Breakfast",
+        subCategory: "Daily Essentials",
+        sizes: ["200g", "400g"],
+        date: 1716634445448,
+        bestseller: true
     },
     {
-        _id: "aaaav",
-        name: "Women Palazzo Pants with Waist Belt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 200,
-        image: [p_img22],
-        category: "Women",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716635445448,
-        bestseller: false
+        _id: "groc_018",
+        name: "Maggi 2-Minute Masala Instant Noodles",
+        description: "India's favorite instant noodles infused with signature blend of 10 spices and fortified with iron.",
+        price: 56,
+        image: ["https://images.unsplash.com/photo-1612927601601-6638404737ce?w=800&auto=format&fit=crop&q=80"],
+        category: "Snacks & Instant Food",
+        subCategory: "Instant Food",
+        sizes: ["Pack of 4", "Pack of 8"],
+        date: 1716635545448,
+        bestseller: true
     },
     {
-        _id: "aaaaw",
-        name: "Boy Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 180,
-        image: [p_img23],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716636545448,
-        bestseller: false
+        _id: "groc_019",
+        name: "Lay's India's Magic Masala Potato Chips",
+        description: "Crunchy sliced potato chips seasoned with a mouth-watering combination of hot Indian spices and tangy herbs.",
+        price: 20,
+        image: ["https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=800&auto=format&fit=crop&q=80"],
+        category: "Snacks & Instant Food",
+        subCategory: "Instant Food",
+        sizes: ["50g", "90g"],
+        date: 1716636645448,
+        bestseller: true
     },
     {
-        _id: "aaaax",
-        name: "Boy Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 210,
-        image: [p_img24],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716637645448,
-        bestseller: false
+        _id: "groc_020",
+        name: "Haldiram's Nagpur Aloo Bhujia",
+        description: "Classic spicy and crispy mint-infused potato and gram flour sev, the ultimate tea-time snack.",
+        price: 55,
+        image: ["https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=800&auto=format&fit=crop&q=80"],
+        category: "Snacks & Instant Food",
+        subCategory: "Instant Food",
+        sizes: ["200g", "400g"],
+        date: 1716637745448,
+        bestseller: true
     },
     {
-        _id: "aaaay",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 190,
-        image: [p_img25],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716638745448,
-        bestseller: false
-    },
-    {
-        _id: "aaaaz",
-        name: "Women Zip-Front Relaxed Fit Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 220,
-        image: [p_img26],
-        category: "Women",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716639845448,
-        bestseller: false
-    },
-    {
-        _id: "aaaba",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 200,
-        image: [p_img27],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716640945448,
-        bestseller: false
-    },
-    {
-        _id: "aaabb",
-        name: "Men Slim Fit Relaxed Denim Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 230,
-        image: [p_img28],
-        category: "Men",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716642045448,
-        bestseller: false
-    },
-    {
-        _id: "aaabc",
-        name: "Women Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 210,
-        image: [p_img29],
-        category: "Women",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716643145448,
-        bestseller: false
-    },
-    {
-        _id: "aaabd",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 240,
-        image: [p_img30],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716644245448,
-        bestseller: false
-    },
-    {
-        _id: "aaabe",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 220,
-        image: [p_img31],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716645345448,
-        bestseller: false
-    },
-    {
-        _id: "aaabf",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 250,
-        image: [p_img32],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716646445448,
-        bestseller: false
-    },
-    {
-        _id: "aaabg",
-        name: "Girls Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 230,
-        image: [p_img33],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716647545448,
-        bestseller: false
-    },
-    {
-        _id: "aaabh",
-        name: "Women Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 260,
-        image: [p_img34],
-        category: "Women",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716648645448,
-        bestseller: false
-    },
-    {
-        _id: "aaabi",
-        name: "Women Zip-Front Relaxed Fit Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 240,
-        image: [p_img35],
-        category: "Women",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716649745448,
-        bestseller: false
-    },
-    {
-        _id: "aaabj",
-        name: "Women Zip-Front Relaxed Fit Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 270,
-        image: [p_img36],
-        category: "Women",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716650845448,
-        bestseller: false
-    },
-    {
-        _id: "aaabk",
-        name: "Women Round Neck Cotton Top",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 250,
-        image: [p_img37],
-        category: "Women",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716651945448,
-        bestseller: false
-    },
-    {
-        _id: "aaabl",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 280,
-        image: [p_img38],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716653045448,
-        bestseller: false
-    },
-    {
-        _id: "aaabm",
-        name: "Men Printed Plain Cotton Shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 260,
-        image: [p_img39],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716654145448,
-        bestseller: false
-    },
-    {
-        _id: "aaabn",
-        name: "Men Slim Fit Relaxed Denim Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 290,
-        image: [p_img40],
-        category: "Men",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716655245448,
-        bestseller: false
-    },
-    {
-        _id: "aaabo",
-        name: "Men Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 270,
-        image: [p_img41],
-        category: "Men",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716656345448,
-        bestseller: false
-    },
-    {
-        _id: "aaabp",
-        name: "Boy Round Neck Pure Cotton T-shirt",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 300,
-        image: [p_img42],
-        category: "Kids",
-        subCategory: "Topwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716657445448,
-        bestseller: false
-    },
-    {
-        _id: "aaabq",
-        name: "Kid Tapered Slim Fit Trouser",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 280,
-        image: [p_img43],
-        category: "Kids",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716658545448,
-        bestseller: false
-    },
-    {
-        _id: "aaabr",
-        name: "Women Zip-Front Relaxed Fit Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
+        _id: "groc_021",
+        name: "Tata Tea Gold Premium Tea",
+        description: "A blend of rich CTC tea granules with 15% long tea leaves that release an invigorating aroma and rich golden taste.",
         price: 310,
-        image: [p_img44],
-        category: "Women",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716659645448,
+        image: ["https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=800&auto=format&fit=crop&q=80"],
+        category: "Beverages & Tea",
+        subCategory: "Daily Essentials",
+        sizes: ["250g", "500g", "1kg"],
+        date: 1716638845448,
+        bestseller: true
+    },
+    {
+        _id: "groc_022",
+        name: "Nescafé Classic Instant Coffee",
+        description: "100% pure instant coffee crafted from dark roasted Robusta beans for a bold flavor and rich morning boost.",
+        price: 185,
+        image: ["https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&auto=format&fit=crop&q=80"],
+        category: "Beverages & Tea",
+        subCategory: "Daily Essentials",
+        sizes: ["50g", "100g", "200g"],
+        date: 1716639945448,
+        bestseller: true
+    },
+    {
+        _id: "groc_023",
+        name: "Vim Lemon Dishwash Liquid Gel",
+        description: "Powerful concentrated dishwash gel with real lemon extract that cuts through tough grease on 100 utensils in 1 spoon.",
+        price: 110,
+        image: ["https://images.unsplash.com/photo-1585421514738-01798e348b17?w=800&auto=format&fit=crop&q=80"],
+        category: "Cleaning & Household",
+        subCategory: "Daily Essentials",
+        sizes: ["250ml", "500ml", "1L"],
+        date: 1716641145448,
         bestseller: false
     },
     {
-        _id: "aaabs",
-        name: "Men Slim Fit Relaxed Denim Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 290,
-        image: [p_img45],
-        category: "Men",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716660745448,
-        bestseller: false
-    },
-    {
-        _id: "aaabt",
-        name: "Men Slim Fit Relaxed Denim Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 320,
-        image: [p_img46],
-        category: "Men",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716661845448,
-        bestseller: false
-    },
-    {
-        _id: "aaabu",
-        name: "Kid Tapered Slim Fit Trouser",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 300,
-        image: [p_img47],
-        category: "Kids",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716662945448,
-        bestseller: false
-    },
-    {
-        _id: "aaabv",
-        name: "Men Slim Fit Relaxed Denim Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 330,
-        image: [p_img48],
-        category: "Men",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716664045448,
-        bestseller: false
-    },
-    {
-        _id: "aaabw",
-        name: "Kid Tapered Slim Fit Trouser",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 310,
-        image: [p_img49],
-        category: "Kids",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716665145448,
-        bestseller: false
-    },
-    {
-        _id: "aaabx",
-        name: "Kid Tapered Slim Fit Trouser",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 340,
-        image: [p_img50],
-        category: "Kids",
-        subCategory: "Bottomwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716666245448, bestseller: false
-    },
-    {
-        _id: "aaaby",
-        name: "Women Zip-Front Relaxed Fit Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 320,
-        image: [p_img51],
-        category: "Women",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716667345448,
-        bestseller: false
-    },
-    {
-        _id: "aaabz",
-        name: "Men Slim Fit Relaxed Denim Jacket",
-        description: "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment.",
-        price: 350,
-        image: [p_img52],
-        category: "Men",
-        subCategory: "Winterwear",
-        sizes: ["S", "M", "L", "XL"],
-        date: 1716668445448,
-        bestseller: false
+        _id: "groc_024",
+        name: "Surf Excel Easy Wash Detergent Powder",
+        description: "Superfine detergent powder with power of 10 hands to remove tough stains effortlessly in machine or hand wash.",
+        price: 145,
+        image: ["https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=800&auto=format&fit=crop&q=80"],
+        category: "Cleaning & Household",
+        subCategory: "Daily Essentials",
+        sizes: ["1kg", "3kg", "5kg"],
+        date: 1716642245448,
+        bestseller: true
     }
-
-]
+];

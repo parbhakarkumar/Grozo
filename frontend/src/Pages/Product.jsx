@@ -159,14 +159,14 @@ const Product = () => {
             {productData.description}
           </p>
 
-          {/* Size Selector */}
+          {/* Pack / Size Selector */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-3">
-              <label className="text-xs font-bold uppercase tracking-wider text-zinc-900">
-                Select Size
+              <label className="text-xs font-black uppercase tracking-wider text-slate-900">
+                Select Pack / Unit Size
               </label>
-              <span className="text-[11px] text-zinc-500 underline cursor-pointer hover:text-zinc-950">
-                Size Guide
+              <span className="text-[11px] text-[#0C831F] font-bold">
+                ⚡ 8-Min Fast Dispatch
               </span>
             </div>
             
@@ -175,10 +175,10 @@ const Product = () => {
                 <button
                   key={i}
                   onClick={() => setSize(s)}
-                  className={`min-w-[48px] h-11 px-4 rounded-xl text-xs font-semibold tracking-wider transition-all flex items-center justify-center ${
+                  className={`min-w-[56px] h-10 px-4 rounded-xl text-xs font-bold tracking-wider transition-all flex items-center justify-center ${
                     s === size
-                      ? "bg-zinc-950 text-white shadow-md ring-2 ring-zinc-950/20"
-                      : "bg-white border border-zinc-200 text-zinc-700 hover:border-zinc-400 hover:text-zinc-950"
+                      ? "bg-[#0C831F] text-white shadow-md ring-2 ring-emerald-500/30"
+                      : "bg-white border border-slate-200 text-slate-700 hover:border-emerald-500 hover:text-emerald-800"
                   }`}
                 >
                   {s}
@@ -191,17 +191,17 @@ const Product = () => {
           <div className="flex flex-col sm:flex-row items-center gap-3 mb-8">
             <button
               onClick={handleAddToCart}
-              className="w-full flex-1 inline-flex items-center justify-center gap-2.5 bg-zinc-950 hover:bg-zinc-800 text-white text-xs font-semibold tracking-widest uppercase py-4 px-6 rounded-2xl transition-all shadow-md active:scale-[0.99]"
+              className="w-full flex-1 inline-flex items-center justify-center gap-2 bg-[#0C831F] hover:bg-emerald-700 text-white text-xs font-black tracking-wider uppercase py-3.5 px-6 rounded-2xl transition-all shadow-md active:scale-[0.99]"
             >
-              <ShoppingBag className="w-4 h-4" />
-              <span>Add To Bag</span>
+              <ShoppingBag className="w-4 h-4 text-amber-300" />
+              <span>Add To Cart</span>
             </button>
 
             <button
               onClick={handleBuyNow}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-900 text-xs font-semibold tracking-widest uppercase py-4 px-8 rounded-2xl transition-all active:scale-[0.99]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-emerald-950 text-xs font-black tracking-wider uppercase py-3.5 px-6 rounded-2xl transition-all shadow-sm active:scale-[0.99]"
             >
-              <span>Instant Checkout</span>
+              <span>Instant Buy</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>

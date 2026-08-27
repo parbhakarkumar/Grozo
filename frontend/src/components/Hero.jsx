@@ -4,11 +4,11 @@ import { motion } from "framer-motion";
 import { Zap, Clock, ShieldCheck, Tag, ShoppingBag, ArrowRight, Sparkles } from "lucide-react";
 
 const quickCategories = [
-  { name: "Electronics", icon: "⚡", bg: "bg-blue-50 text-blue-600", tag: "Hot" },
-  { name: "Clothing", icon: "👕", bg: "bg-amber-50 text-amber-600", tag: "Sale" },
-  { name: "Footwear", icon: "👟", bg: "bg-emerald-50 text-emerald-600", tag: "New" },
+  { name: "Masala & Spices", icon: "🌶", bg: "bg-red-50 text-red-600", tag: "Essential" },
+  { name: "Atta, Rice & Dal", icon: "🌾", bg: "bg-amber-50 text-amber-600", tag: "Daily" },
+  { name: "Dairy & Bread", icon: "🥛", bg: "bg-blue-50 text-blue-600", tag: "Fresh" },
   { name: "Snacks & Drinks", icon: "🥤", bg: "bg-purple-50 text-purple-600", tag: "Quick" },
-  { name: "Beauty & Care", icon: "✨", bg: "bg-pink-50 text-pink-600", tag: "Popular" },
+  { name: "Cleaning & Care", icon: "🧼", bg: "bg-emerald-50 text-emerald-600", tag: "Hygiene" },
 ];
 
 const Hero = () => {

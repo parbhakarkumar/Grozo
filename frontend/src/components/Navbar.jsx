@@ -51,11 +51,11 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: "⚡ ALL ITEMS", path: "/collection" },
-    { name: "CLOTHING", path: "/collection?cat=Men" },
-    { name: "FOOTWEAR", path: "/collection?cat=Women" },
-    { name: "ABOUT", path: "/about" },
-    { name: "CONTACT", path: "/contact" },
+    { name: "⚡ ALL GROCERY", path: "/collection" },
+    { name: "MASALA & SPICES", path: "/collection" },
+    { name: "ATTA & DAL", path: "/collection" },
+    { name: "DAIRY & BREAD", path: "/collection" },
+    { name: "SNACKS & DRINKS", path: "/collection" },
   ];
 
   const getUserInitials = () => {

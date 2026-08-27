@@ -89,8 +89,15 @@ const Collection = () => {
     sortProduct();
   }, [sortType]);
 
-  const categoriesList = ["Men", "Women", "Kids"];
-  const subCategoriesList = ["Topwear", "Bottomwear", "Winterwear"];
+  const categoriesList = [
+    "Masala & Spices",
+    "Atta, Rice & Oil",
+    "Dairy & Breakfast",
+    "Snacks & Instant Food",
+    "Beverages & Tea",
+    "Cleaning & Household"
+  ];
+  const subCategoriesList = ["Daily Essentials", "Cooking Essentials", "Instant Food"];
 
   return (
     <div className="py-4 sm:py-6">

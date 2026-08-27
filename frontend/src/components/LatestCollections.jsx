@@ -22,7 +22,7 @@ const LatestCollections = () => {
     }
   }, [products, activeTab]);
 
-  const tabs = ["All", "Women", "Men", "Kids"];
+  const tabs = ["All", "Masala & Spices", "Atta, Rice & Oil", "Dairy & Breakfast", "Snacks & Instant Food"];
 
   return (
     <section className="my-8 sm:my-12">
