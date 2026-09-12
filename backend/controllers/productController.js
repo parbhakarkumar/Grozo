@@ -5,6 +5,7 @@ import {
   removeProductService,
   singleProductService,
   updateStockService,
+  updateProductService,
 } from "../services/productService.js";
 
 // ─────────────────────────────────────────────
@@ -74,4 +75,22 @@ const updateStock = asyncHandler(async (req, res) => {
   });
 });
 
-export { addProduct, listProducts, removeProduct, singleProduct, updateStock };
+// ─────────────────────────────────────────────
+// PUT /api/product/update  (Admin only)
+// Body: multipart or JSON with id + fields
+// ─────────────────────────────────────────────
+const updateProduct = asyncHandler(async (req, res) => {
+  const product = await updateProductService({
+    ...req.body,
+    id: req.body.id,
+    files: req.files,
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: "Product updated successfully.",
+    product,
+  });
+});
+
+export { addProduct, listProducts, removeProduct, singleProduct, updateStock, updateProduct };

@@ -16,6 +16,7 @@ import contact_img from './contact_img.png'
 import razorpay_logo from './razorpay_logo.png'
 import stripe_logo from './stripe_logo.png'
 import cross_icon from './cross_icon.png'
+import upi_qr_code from './upi_qr_code.jpg'
 
 export const assets = {
     logo,
@@ -35,7 +36,8 @@ export const assets = {
     contact_img,
     razorpay_logo,
     stripe_logo,
-    cross_icon
+    cross_icon,
+    upi_qr_code
 }
 
 export const products = [
@@ -56,7 +58,7 @@ export const products = [
         name: "MDH Deggi Mirch Powder",
         description: "Finely ground blend of specially selected red peppers that imparts a natural vibrant red color and mild spiciness.",
         price: 95,
-        image: ["https://images.unsplash.com/photo-1599909625345-4e78a6ff6078?w=800&auto=format&fit=crop&q=80"],
+        image: ["https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=800&auto=format&fit=crop&q=80"],
         category: "Masala & Spices",
         subCategory: "Cooking Essentials",
         sizes: ["100g", "250g"],
@@ -164,7 +166,7 @@ export const products = [
         name: "Tata Sampann Unpolished Toor / Arhar Dal",
         description: "Unpolished toor dal rich in natural protein and dietary fiber without any chemical polishing or artificial colors.",
         price: 168,
-        image: ["https://images.unsplash.com/photo-1585994192701-f1a505c817ea?w=800&auto=format&fit=crop&q=80"],
+        image: ["https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&auto=format&fit=crop&q=80"],
         category: "Atta, Rice & Oil",
         subCategory: "Daily Essentials",
         sizes: ["500g", "1kg", "2kg"],
@@ -326,5 +328,149 @@ export const products = [
         sizes: ["1kg", "3kg", "5kg"],
         date: 1716642245448,
         bestseller: true
+    },
+    {
+        _id: "groc_025",
+        name: "Dettol Original Antibacterial Soap",
+        description: "Trusted antibacterial protection soap with pine fragrance. Provides 100% better germ protection for the whole family.",
+        price: 42,
+        image: ["https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?w=800&auto=format&fit=crop&q=80"],
+        category: "Personal Care",
+        subCategory: "Bath & Body",
+        sizes: ["75g", "125g"],
+        date: 1716643345448,
+        bestseller: true
+    },
+    {
+        _id: "groc_026",
+        name: "Colgate Strong Teeth Toothpaste",
+        description: "India's #1 toothpaste with Amino Shakti Formula and calcium boost for 2x stronger teeth from the very first use.",
+        price: 85,
+        image: ["https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=800&auto=format&fit=crop&q=80"],
+        category: "Personal Care",
+        subCategory: "Oral Care",
+        sizes: ["100g", "200g", "300g"],
+        date: 1716644445448,
+        bestseller: true
+    },
+    {
+        _id: "groc_027",
+        name: "Head & Shoulders Anti-Dandruff Shampoo",
+        description: "Clinically proven anti-dandruff shampoo with Zinc Pyrithione. Removes dandruff from the 1st wash for a flake-free scalp.",
+        price: 195,
+        image: ["https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?w=800&auto=format&fit=crop&q=80"],
+        category: "Personal Care",
+        subCategory: "Hair Care",
+        sizes: ["180ml", "340ml", "650ml"],
+        date: 1716645545448,
+        bestseller: false
+    },
+    {
+        _id: "groc_028",
+        name: "Nivea Body Lotion Deep Moisture",
+        description: "Enriched with Serum and Almond Oil for 48-hour deep moisture. Non-greasy, fast-absorbing formula for soft smooth skin.",
+        price: 220,
+        image: ["https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&auto=format&fit=crop&q=80"],
+        category: "Personal Care",
+        subCategory: "Skin Care",
+        sizes: ["200ml", "400ml"],
+        date: 1716646645448,
+        bestseller: false
+    },
+    {
+        _id: "groc_029",
+        name: "Nestlé Cerelac Baby Wheat Dal Stage 2",
+        description: "Fortified baby cereal with wheat-dal flavor for babies 8 months and above. Contains Iron, Vitamins, and 17 essential nutrients.",
+        price: 275,
+        image: ["https://images.unsplash.com/photo-1612187015718-37bfc4d27045?w=800&auto=format&fit=crop&q=80"],
+        category: "Baby & Kids",
+        subCategory: "Baby Food",
+        sizes: ["300g", "500g"],
+        date: 1716647745448,
+        bestseller: true
+    },
+    {
+        _id: "groc_030",
+        name: "Johnson's Baby Shampoo No More Tears",
+        description: "Gentle, mild, and tear-free baby shampoo that is as gentle to the eyes as pure water. Clinically proven mild formula.",
+        price: 165,
+        image: ["https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=800&auto=format&fit=crop&q=80"],
+        category: "Baby & Kids",
+        subCategory: "Baby Care",
+        sizes: ["200ml", "500ml"],
+        date: 1716648845448,
+        bestseller: true
+    },
+    {
+        _id: "groc_031",
+        name: "Fresh Bananas (Robusta)",
+        description: "Farm-fresh, naturally ripened Robusta bananas. Rich in potassium, dietary fiber and natural energy for the whole family.",
+        price: 45,
+        image: ["https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=800&auto=format&fit=crop&q=80"],
+        category: "Fresh Fruits & Vegetables",
+        subCategory: "Fresh Produce",
+        sizes: ["6 pcs", "12 pcs"],
+        date: 1716649945448,
+        bestseller: true
+    },
+    {
+        _id: "groc_032",
+        name: "Fresh Tomatoes (Hybrid)",
+        description: "Hand-picked, vine-ripened hybrid tomatoes with rich red color. Perfect for curries, salads, chutneys, and daily cooking.",
+        price: 35,
+        image: ["https://images.unsplash.com/photo-1546470427-0d4db154ceb8?w=800&auto=format&fit=crop&q=80"],
+        category: "Fresh Fruits & Vegetables",
+        subCategory: "Fresh Produce",
+        sizes: ["500g", "1kg"],
+        date: 1716651045448,
+        bestseller: true
+    },
+    {
+        _id: "groc_033",
+        name: "Fresh Onions (Nashik)",
+        description: "Premium quality Nashik onions known for strong pungent flavor and rich red-purple color. Essential for Indian cooking.",
+        price: 38,
+        image: ["https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=800&auto=format&fit=crop&q=80"],
+        category: "Fresh Fruits & Vegetables",
+        subCategory: "Fresh Produce",
+        sizes: ["500g", "1kg", "2kg"],
+        date: 1716652145448,
+        bestseller: true
+    },
+    {
+        _id: "groc_034",
+        name: "Fresh Potatoes (Agra)",
+        description: "Clean, sorted Agra potatoes with smooth skin. Versatile staple vegetable for frying, boiling, baking, and curries.",
+        price: 32,
+        image: ["https://images.unsplash.com/photo-1518977676601-b53f82ber95?w=800&auto=format&fit=crop&q=80"],
+        category: "Fresh Fruits & Vegetables",
+        subCategory: "Fresh Produce",
+        sizes: ["500g", "1kg", "2kg", "5kg"],
+        date: 1716653245448,
+        bestseller: false
+    },
+    {
+        _id: "groc_035",
+        name: "Tropicana Mixed Fruit Juice",
+        description: "100% juice made from a blend of real fruits including apple, mango, and orange. No added sugar, no preservatives.",
+        price: 90,
+        image: ["https://images.unsplash.com/photo-1534353473418-4cfa6c56fd38?w=800&auto=format&fit=crop&q=80"],
+        category: "Beverages & Tea",
+        subCategory: "Beverages",
+        sizes: ["200ml", "1L"],
+        date: 1716654345448,
+        bestseller: true
+    },
+    {
+        _id: "groc_036",
+        name: "Paper Boat Aam Panna Drink",
+        description: "Traditional raw mango drink made with cumin, mint, and jaggery. A refreshing summer cooler inspired by Indian heritage.",
+        price: 30,
+        image: ["https://images.unsplash.com/photo-1546173159-315724a31696?w=800&auto=format&fit=crop&q=80"],
+        category: "Beverages & Tea",
+        subCategory: "Beverages",
+        sizes: ["250ml"],
+        date: 1716655445448,
+        bestseller: false
     }
 ];

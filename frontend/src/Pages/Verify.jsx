@@ -54,7 +54,7 @@ const VerifyPayment = () => {
         <p className="text-xs text-zinc-500 font-light leading-relaxed mb-4">
           Please wait a moment while we securely authenticate your payment with the banking network...
         </p>
-        <div className="inline-flex items-center gap-1.5 text-[11px] text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full font-medium">
+        <div className="inline-flex items-center gap-1.5 text-[11px] text-cyan-700 bg-cyan-50 px-3 py-1 rounded-full font-medium">
           <ShieldCheck className="w-3.5 h-3.5" />
           <span>Encrypted Gateway</span>
         </div>

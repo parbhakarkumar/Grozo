@@ -17,6 +17,8 @@ import userRouter from "./routes/userRoute.js";
 import productRouter from "./routes/productRoute.js";
 import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/orderRoute.js";
+import adminRouter from "./routes/adminRoute.js";
+import trackingRouter from "./routes/trackingRoute.js";
 
 // ─────────────────────────────────────────────
 // Initialize App & HTTP Server
@@ -133,9 +135,97 @@ io.on("connection", (socket) => {
     }
   });
 
+  // Tracking page joins specific live order room
+  socket.on("join_order", (orderId) => {
+    if (orderId) {
+      socket.join(`order_${orderId}`);
+      console.log(`📍 [Socket.IO] Client ${socket.id} joined live tracking for order_${orderId}`);
+    }
+  });
+
+  socket.on("leave_order", (orderId) => {
+    if (orderId) {
+      socket.leave(`order_${orderId}`);
+    }
+  });
+
+  // ── Live Delivery Chat ─────────────────────────
+  const RIDER_REPLIES = [
+    "On my way! Will be there shortly 🛵",
+    "Almost at your location, please be ready!",
+    "Stuck in a small traffic jam, 2 mins more 🚦",
+    "I can see your building, coming up now!",
+    "At the entrance, please come to collect your order 📦",
+    "Just a minute away! Please keep the OTP ready 🔐",
+    "Navigating through the lane, almost there!",
+    "Your order is safe with me, arriving soon! 😊",
+    "Taking the shortcut, will reach faster! ⚡",
+    "Hi! I'm your delivery partner. On my way to you!",
+  ];
+
+  socket.on("chat_message", (payload) => {
+    const { orderId, message, sender, senderName, timestamp } = payload;
+    if (!orderId || !message) return;
+
+    const chatMsg = {
+      id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      orderId,
+      message,
+      sender: sender || "customer",
+      senderName: senderName || "You",
+      timestamp: timestamp || new Date().toISOString(),
+    };
+
+    // Broadcast to everyone in the order room
+    io.to(`order_${orderId}`).emit("chat_message", chatMsg);
+    console.log(`💬 [Chat] ${chatMsg.sender} → order_${orderId}: ${message}`);
+
+    // Simulated rider auto-reply when customer sends a message
+    if (sender === "customer") {
+      const delay = 2000 + Math.random() * 2000; // 2-4 seconds
+
+      // Typing indicator
+      setTimeout(() => {
+        io.to(`order_${orderId}`).emit("chat_typing", { orderId, sender: "rider" });
+      }, delay * 0.4);
+
+      // Rider reply
+      setTimeout(() => {
+        io.to(`order_${orderId}`).emit("chat_stop_typing", { orderId, sender: "rider" });
+
+        const reply = RIDER_REPLIES[Math.floor(Math.random() * RIDER_REPLIES.length)];
+        const riderMsg = {
+          id: `msg_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+          orderId,
+          message: reply,
+          sender: "rider",
+          senderName: "Rajesh Kumar",
+          timestamp: new Date().toISOString(),
+        };
+        io.to(`order_${orderId}`).emit("chat_message", riderMsg);
+        console.log(`🛵 [Chat] Rider auto-reply → order_${orderId}: ${reply}`);
+      }, delay);
+    }
+  });
+
+  socket.on("chat_typing", (payload) => {
+    const { orderId, sender } = payload;
+    if (orderId) {
+      socket.to(`order_${orderId}`).emit("chat_typing", { orderId, sender });
+    }
+  });
+
+  socket.on("chat_stop_typing", (payload) => {
+    const { orderId, sender } = payload;
+    if (orderId) {
+      socket.to(`order_${orderId}`).emit("chat_stop_typing", { orderId, sender });
+    }
+  });
+
   socket.on("disconnect", () => {
     console.log(`🔌 [Socket.IO] Client disconnected: ${socket.id}`);
   });
+
 });
 
 // Attach io instance to express app
@@ -162,7 +252,7 @@ app.use("/api", apiLimiter);
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "Cartivo API is running.",
+    message: "Grozo API is running.",
     version: "2.1.0",
     realtime: "Socket.IO Active",
     environment: process.env.NODE_ENV || "development",
@@ -177,6 +267,9 @@ app.use("/api/user", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
+app.use("/api/orders", orderRouter); // RESTful alias
+app.use("/api/tracking", trackingRouter);
+app.use("/api/admin", adminRouter);
 
 // ─────────────────────────────────────────────
 // 404 Handler — Unknown Routes
@@ -197,8 +290,19 @@ app.use(errorHandler);
 // Start Server
 // ─────────────────────────────────────────────
 if (process.env.NODE_ENV !== "test") {
+  server.on("error", (err) => {
+    if (err.code === "EADDRINUSE") {
+      console.error(`\n⚠️  [PORT BUSY] Port ${port} is currently occupied by another process.`);
+      console.error(`💡  To free port ${port}, run: npx --yes kill-port ${port}\n`);
+      process.exit(1);
+    } else {
+      console.error("❌ Server error:", err.message);
+      process.exit(1);
+    }
+  });
+
   server.listen(port, () => {
-    console.log(`\n🚀 Cartivo API & Real-time Server running on http://localhost:${port}`);
+    console.log(`\n🚀 Grozo API & Real-time Server running on http://localhost:${port}`);
     console.log(`📦 Environment: ${process.env.NODE_ENV || "development"}`);
     console.log(`🔐 Security: Dynamic CORS + Helmet + Rate Limiter + Mongo Sanitize`);
     console.log(`⚡ Real-Time: Socket.IO initialized on port ${port}\n`);

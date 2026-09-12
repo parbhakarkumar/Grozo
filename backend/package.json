@@ -10,7 +10,8 @@
     "test:coverage": "vitest run --coverage",
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "seed:admin": "node scripts/seedAdmin.js"
   },
   "author": "Adarsh",
   "license": "ISC",

@@ -4,16 +4,17 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import App from "./App.jsx";
 import "./index.css";
 import ShopContextProvider from "./context/ShopContext.jsx";
+import { SettingsProvider } from "./context/SettingsContext.jsx";
 
-const googleClientId =
-  import.meta.env.VITE_GOOGLE_CLIENT_ID ||
-  "1084869871142-cartivodemo.apps.googleusercontent.com";
+const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <GoogleOAuthProvider clientId={googleClientId}>
       <ShopContextProvider>
-        <App />
+        <SettingsProvider>
+          <App />
+        </SettingsProvider>
       </ShopContextProvider>
     </GoogleOAuthProvider>
   </BrowserRouter>

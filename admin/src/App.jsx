@@ -5,6 +5,7 @@ import Add from "./pages/Add";
 import List from "./pages/List";
 import Orders from "./pages/Orders";
 import Dashboard from "./pages/Dashboard";
+import Users from "./pages/Users";
 import Sidebar from "./components/Sidebar";
 import Login from "./components/Login";
 import { ToastContainer } from "react-toastify";
@@ -53,6 +54,7 @@ const App = () => {
               <Routes>
                 <Route path="/" element={<Navigate to="/dashboard" replace />} />
                 <Route path="/dashboard" element={<Dashboard token={token} />} />
+                <Route path="/users" element={<Users token={token} />} />
                 <Route path="/add" element={<Add token={token} />} />
                 <Route path="/list" element={<List token={token} />} />
                 <Route path="/orders" element={<Orders token={token} />} />

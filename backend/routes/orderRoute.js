@@ -4,7 +4,9 @@ import {
   placeOrder,
   placeOrderRazorpay,
   placeOrderStripe,
+  getOrderById,
   updateStatus,
+  patchOrderStatus,
   userOrders,
   verifyStripePayment,
   updateTracking,
@@ -13,24 +15,32 @@ import {
 } from "../controllers/orderController.js";
 import authUser from "../middleware/Auth.js";
 import adminAuth from "../middleware/adminAuth.js";
+import anyAuth from "../middleware/anyAuth.js";
 
 const orderRouter = express.Router();
 
 // Admin features
 orderRouter.post("/list", adminAuth, allOrders);
+orderRouter.get("/list", adminAuth, allOrders);
 orderRouter.post("/status", adminAuth, updateStatus);
+orderRouter.patch("/:id/status", adminAuth, patchOrderStatus);
 orderRouter.post("/tracking", adminAuth, updateTracking);
 orderRouter.post("/verify-otp", adminAuth, verifyDeliveryOtp);
 orderRouter.post("/admin-cancel", adminAuth, cancelOrder);
 
 // Payment features
 orderRouter.post("/place", authUser, placeOrder);
+orderRouter.post("/upi", authUser, placeOrder);
 orderRouter.post("/stripe", authUser, placeOrderStripe);
 orderRouter.post("/razorpay", authUser, placeOrderRazorpay);
 
 // User features
 orderRouter.post("/userorders", authUser, userOrders);
+orderRouter.get("/userorders", authUser, userOrders);
 orderRouter.post("/cancel", authUser, cancelOrder);
+
+// Single order lookup (User or Admin)
+orderRouter.get("/:id", anyAuth, getOrderById);
 
 // Verify payment
 orderRouter.post("/verifystripe", authUser, verifyStripePayment);

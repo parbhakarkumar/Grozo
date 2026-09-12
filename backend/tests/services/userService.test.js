@@ -12,7 +12,7 @@ describe("User Service Tests", () => {
     const res = await registerUserService({
       name: "John Doe",
       email: "john@example.com",
-      password: "password123",
+      password: "Password123!",
     });
 
     expect(res).toHaveProperty("token");
@@ -27,14 +27,14 @@ describe("User Service Tests", () => {
     await registerUserService({
       name: "John Doe",
       email: "john@example.com",
-      password: "password123",
+      password: "Password123!",
     });
 
     await expect(
       registerUserService({
         name: "Jane Doe",
         email: "john@example.com",
-        password: "password123",
+        password: "Password123!",
       })
     ).rejects.toThrow("An account with this email already exists.");
   });
@@ -53,12 +53,12 @@ describe("User Service Tests", () => {
     await registerUserService({
       name: "Alice Smith",
       email: "alice@example.com",
-      password: "securepassword123",
+      password: "SecurePassword123!",
     });
 
     const res = await loginUserService({
       email: "alice@example.com",
-      password: "securepassword123",
+      password: "SecurePassword123!",
     });
 
     expect(res).toHaveProperty("token");
@@ -69,13 +69,13 @@ describe("User Service Tests", () => {
     await registerUserService({
       name: "Alice Smith",
       email: "alice@example.com",
-      password: "securepassword123",
+      password: "SecurePassword123!",
     });
 
     await expect(
       loginUserService({
         email: "alice@example.com",
-        password: "wrongpassword",
+        password: "WrongPassword999!",
       })
     ).rejects.toThrow("Invalid email or password.");
   });

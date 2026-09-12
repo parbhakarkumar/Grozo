@@ -19,7 +19,7 @@ describe("Order Routes Integration Tests", () => {
 
   it("POST /api/order/list with valid admin token should return 200", async () => {
     const adminToken = jwt.sign(
-      process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD,
+      { id: "64b0f0000000000000000001", role: "admin", email: process.env.ADMIN_EMAIL },
       process.env.JWT_SECRET
     );
 

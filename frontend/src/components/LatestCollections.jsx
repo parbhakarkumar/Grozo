@@ -29,7 +29,7 @@ const LatestCollections = () => {
       {/* Section Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 pb-3 border-b border-slate-200">
         <div>
-          <div className="flex items-center gap-2 text-[#0C831F] font-black text-xs uppercase tracking-widest mb-1">
+          <div className="flex items-center gap-2 text-cyan-600 font-black text-xs uppercase tracking-widest mb-1">
             <Zap className="w-4 h-4 fill-amber-400 text-amber-400 animate-pulse" />
             <span>Delivered in 8-10 Mins</span>
           </div>
@@ -46,7 +46,7 @@ const LatestCollections = () => {
               onClick={() => setActiveTab(tab)}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold tracking-wide transition-all ${
                 activeTab === tab
-                  ? "bg-[#0C831F] text-white shadow-xs"
+                  ? "bg-cyan-600 text-white shadow-xs"
                   : "bg-slate-100 text-slate-700 hover:bg-slate-200"
               }`}
             >
@@ -77,10 +77,10 @@ const LatestCollections = () => {
       <div className="mt-8 text-center">
         <Link
           to="/collection"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-emerald-50 border border-slate-300 hover:border-emerald-600 text-slate-900 hover:text-emerald-700 text-xs font-black uppercase tracking-wider transition-all shadow-xs"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-cyan-50 border border-slate-300 hover:border-cyan-600 text-slate-900 hover:text-cyan-700 text-xs font-black uppercase tracking-wider transition-all shadow-xs"
         >
           <span>Explore All 8-Min Products</span>
-          <ArrowRight className="w-4 h-4 text-emerald-600" />
+          <ArrowRight className="w-4 h-4 text-cyan-600" />
         </Link>
       </div>
     </section>

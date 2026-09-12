@@ -1,115 +1,177 @@
 import React from "react";
-import Title from "../components/Title";
+import { Link } from "react-router-dom";
 import { assets } from "../assets/assets";
-import NewsletterBox from "../components/NewsletterBox";
-import { ShieldCheck, Sparkles, HeartHandshake, Leaf, Award, Compass } from "lucide-react";
+import {
+  ChevronRight, Award, Leaf, HeartHandshake, Zap, Users,
+  Store, Clock, Star, ArrowRight
+} from "lucide-react";
+
+const Card = ({ children, className = "" }) => (
+  <div className={`bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 rounded-2xl shadow-sm ${className}`}>{children}</div>
+);
 
 const About = () => {
+  const stats = [
+    { value: "50K+",  label: "Happy Customers" },
+    { value: "8 min", label: "Avg. Delivery Time" },
+    { value: "5,000+",label: "Products Listed" },
+    { value: "4.8★",  label: "App Store Rating" },
+  ];
+
   const values = [
-    {
-      icon: <Award className="w-6 h-6 text-zinc-950" />,
-      title: "Uncompromising Quality",
-      desc: "Every single garment is fabricated with long-staple combed cotton and reinforced micro-stitching for enduring beauty.",
-    },
-    {
-      icon: <Leaf className="w-6 h-6 text-zinc-950" />,
-      title: "Sustainable Practices",
-      desc: "We prioritize low-impact organic dyes, fair living wages, and zero plastic packaging throughout our fulfillment chain.",
-    },
-    {
-      icon: <HeartHandshake className="w-6 h-6 text-zinc-950" />,
-      title: "Customer Dedication",
-      desc: "Our personal stylists and 24/7 concierge ensure your wardrobe experience is frictionless from browsing to delivery.",
-    },
+    { icon: Zap,          title: "Speed First",        desc: "We built our dark store network to ensure you get essentials within 8 minutes, no excuses." },
+    { icon: Award,        title: "Quality Assured",    desc: "Every product is sourced from verified suppliers and checked before dispatch." },
+    { icon: Leaf,         title: "Eco Conscious",      desc: "Minimal plastic, electric delivery vehicles, and a commitment to reducing our carbon footprint." },
+    { icon: HeartHandshake, title: "Customer Obsessed", desc: "24/7 support, easy returns, and a team that genuinely cares about your experience." },
+  ];
+
+  const team = [
+    { name: "Aarav Sharma",   role: "Founder & CEO",       initial: "A" },
+    { name: "Priya Mehta",    role: "Head of Operations",   initial: "P" },
+    { name: "Rohit Gupta",    role: "CTO",                  initial: "R" },
+    { name: "Ananya Singh",   role: "Head of Customer Joy", initial: "A" },
   ];
 
   return (
-    <div className="py-8 sm:py-12 border-t border-zinc-200/80 animate-fade-in">
-      
-      {/* Page Title */}
-      <div className="text-center mb-12">
-        <Title text1="ABOUT" text2="OUR STUDIO" />
-        <p className="text-xs sm:text-sm text-zinc-500 max-w-lg mx-auto font-light tracking-wide -mt-3">
-          Redefining contemporary Indian fashion through architectural minimalism, sustainable yarns, and timeless tailoring.
-        </p>
-      </div>
-
-      {/* Story Showcase (2 Cols) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center mb-20">
-        <div className="lg:col-span-6 relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/3] rounded-3xl overflow-hidden bg-zinc-100 border border-zinc-200/80 shadow-subtle group">
-          <img
-            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
-            src={assets.about_img}
-            alt="ShopEase Studio Story"
-          />
-        </div>
-
-        <div className="lg:col-span-6 flex flex-col justify-center space-y-5 text-xs sm:text-sm text-zinc-600 font-light leading-relaxed">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-[10px] font-bold tracking-widest text-zinc-800 uppercase w-fit">
-            <Compass className="w-3.5 h-3.5" />
-            <span>Our Founding Philosophy</span>
-          </div>
-
-          <h3 className="font-editorial text-2xl sm:text-3xl text-zinc-950 font-normal leading-tight">
-            Crafting Essentials That Transcends Fleeting Seasons
-          </h3>
-
-          <p>
-            Cartivo Studio was established with a singular vision: to eliminate wardrobe clutter by offering carefully engineered foundational garments that look impeccable, feel luxurious, and last for years.
-          </p>
-
-          <p>
-            By designing in deliberate capsule collections and partnering directly with master weavers, we bridge the gap between runway luxury tailoring and daily functional comfort.
-          </p>
-
-          <div className="pt-4 border-t border-zinc-100 grid grid-cols-3 gap-4">
-            <div>
-              <p className="text-2xl font-bold text-zinc-950 font-serif">100%</p>
-              <p className="text-[10px] text-zinc-400 uppercase font-medium">Organic Yarns</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-zinc-950 font-serif">7 Days</p>
-              <p className="text-[10px] text-zinc-400 uppercase font-medium">Free Exchange</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-zinc-950 font-serif">50,000+</p>
-              <p className="text-[10px] text-zinc-400 uppercase font-medium">Wardrobes Styled</p>
-            </div>
-          </div>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors">
+      {/* Breadcrumb */}
+      <div className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+          <Link to="/" className="hover:text-cyan-600 dark:hover:text-cyan-400 hover:underline">Home</Link>
+          <ChevronRight size={12} />
+          <span className="text-slate-800 dark:text-slate-200 font-medium">About Grozo</span>
         </div>
       </div>
 
-      {/* Why Choose Us Values Grid */}
-      <div className="my-20">
-        <div className="text-center mb-10">
-          <Title text1="WHY CHOOSE" text2="CARTIVO" />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+
+        {/* Hero */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+          <div>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-cyan-50 dark:bg-cyan-950/40 border border-cyan-100 dark:border-cyan-800/60 text-cyan-700 dark:text-cyan-300 text-[10px] font-bold uppercase tracking-widest rounded mb-3">
+              <Store size={11} /> Our Story
+            </span>
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white leading-tight mb-4">
+              Groceries in 8 Minutes —<br />That's the Grozo Promise
+            </h1>
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+              Founded in 2023, Grozo was born from a simple frustration: why does it take an hour to get milk? We built a network of micro dark stores across cities to solve exactly that. Today, we serve over 50,000 customers daily.
+            </p>
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+              From fresh produce and dairy to snacks and household essentials — we stock over 5,000 products, carefully curated and quality-checked. Every delivery is packed with care, and every customer interaction is handled with genuine attention.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link to="/collection"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-semibold rounded-xl transition-colors"
+              >
+                Shop Now <ArrowRight size={14} />
+              </Link>
+              <Link to="/contact"
+                className="inline-flex items-center gap-2 px-5 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              >
+                Contact Us
+              </Link>
+            </div>
+          </div>
+          <Card className="overflow-hidden">
+            <div className="aspect-[4/3]">
+              <img src={assets.about_img} alt="Grozo Dark Store" className="w-full h-full object-cover" />
+            </div>
+          </Card>
         </div>
 
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {values.map((v, i) => (
-            <div
-              key={i}
-              className="p-8 rounded-3xl bg-white border border-zinc-200/80 hover:border-zinc-300 hover:shadow-elevated transition-all duration-300 flex flex-col items-start"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-zinc-50 border border-zinc-100 flex items-center justify-center mb-5">
-                {v.icon}
-              </div>
-              <h4 className="text-sm font-bold text-zinc-950 tracking-wide mb-2">
-                {v.title}
-              </h4>
-              <p className="text-xs text-zinc-500 font-light leading-relaxed">
-                {v.desc}
-              </p>
-            </div>
+        {/* Stats */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {stats.map(({ value, label }) => (
+            <Card key={label} className="p-5 text-center">
+              <p className="text-2xl font-black text-cyan-600 dark:text-cyan-400">{value}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">{label}</p>
+            </Card>
           ))}
         </div>
-      </div>
 
-      <NewsletterBox />
+        {/* Values */}
+        <div>
+          <div className="mb-4">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white">Our Values</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">What drives us every single day</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {values.map(({ icon: Icon, title, desc }) => (
+              <Card key={title} className="p-5 flex items-start gap-4">
+                <div className="w-9 h-9 rounded-lg bg-cyan-50 dark:bg-cyan-950/40 border border-cyan-100 dark:border-cyan-800/60 flex items-center justify-center flex-shrink-0">
+                  <Icon size={16} className="text-cyan-600 dark:text-cyan-400" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100">{title}</h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">{desc}</p>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Timeline */}
+        <Card className="p-6">
+          <h2 className="text-base font-bold text-slate-900 dark:text-white mb-5">Our Journey</h2>
+          <div className="space-y-4">
+            {[
+              { year: "2023", event: "Founded in Prayagraj with 1 dark store and 3 delivery partners" },
+              { year: "Early 2024", event: "Expanded to 5 cities · Launched the Grozo app · 10,000 customers" },
+              { year: "Mid 2024", event: "Introduced 8-minute express delivery guarantee" },
+              { year: "2025", event: "50,000+ daily orders · Electric delivery fleet · Series A funding" },
+              { year: "2026", event: "Pan-India expansion in progress · 100+ dark stores planned" },
+            ].map(({ year, event }, i) => (
+              <div key={i} className="flex gap-4">
+                <div className="flex flex-col items-center gap-1 w-20 flex-shrink-0">
+                  <span className="text-xs font-bold text-cyan-600 dark:text-cyan-400 whitespace-nowrap">{year}</span>
+                  {i < 4 && <div className="w-px flex-1 bg-slate-200 dark:bg-slate-700 my-1" />}
+                </div>
+                <div className="pb-4">
+                  <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{event}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        {/* Team */}
+        <div>
+          <div className="mb-4">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white">Meet the Team</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">The people behind the 8-minute magic</p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {team.map(({ name, role, initial }) => (
+              <Card key={name} className="p-4 text-center">
+                <div className="w-14 h-14 rounded-full bg-slate-800 dark:bg-slate-700 flex items-center justify-center mx-auto mb-3 text-white text-xl font-bold">
+                  {initial}
+                </div>
+                <p className="text-sm font-bold text-slate-900 dark:text-white">{name}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{role}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA Banner */}
+        <Card className="p-6 sm:p-8 bg-slate-800 dark:bg-slate-850 border-slate-800 dark:border-slate-700 text-center">
+          <div className="flex items-center justify-center gap-1.5 mb-3">
+            <Star size={14} className="text-amber-400 fill-amber-400" />
+            <span className="text-amber-400 text-xs font-bold">4.8 / 5 · 12,000+ Reviews</span>
+          </div>
+          <h2 className="text-xl font-bold text-white mb-2">Ready for 8-minute delivery?</h2>
+          <p className="text-sm text-slate-400 mb-5">Join 50,000+ customers who trust Grozo for their daily essentials.</p>
+          <Link to="/collection"
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-bold rounded-xl transition-colors"
+          >
+            Start Shopping <ArrowRight size={14} />
+          </Link>
+        </Card>
+
+      </div>
     </div>
   );
 };
 
 export default About;
-

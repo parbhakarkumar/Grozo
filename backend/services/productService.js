@@ -72,6 +72,47 @@ export const singleProductService = async (productId) => {
   return product;
 };
 
+export const updateProductService = async ({ id, name, description, price, category, subCategory, sizes, bestseller, files }) => {
+  const product = await productModel.findById(id);
+  if (!product) {
+    const error = new Error("Product not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  // Update image URLs if new files provided
+  if (files && Object.keys(files).length > 0) {
+    const imageFiles = [files?.image1?.[0], files?.image2?.[0], files?.image3?.[0], files?.image4?.[0]].filter(Boolean);
+    if (imageFiles.length > 0) {
+      const newURLs = await Promise.all(
+        imageFiles.map(async (img) => {
+          const result = await cloudinary.uploader.upload(img.path, {
+            resource_type: "image",
+            folder: "shopease/products",
+            transformation: [{ quality: "auto", fetch_format: "auto" }],
+          });
+          return result.secure_url;
+        })
+      );
+      product.image = newURLs;
+    }
+  }
+
+  if (name !== undefined) product.name = name.trim();
+  if (description !== undefined) product.description = description.trim();
+  if (price !== undefined) product.price = Number(price);
+  if (category !== undefined) product.category = category.trim();
+  if (subCategory !== undefined) product.subCategory = subCategory.trim();
+  if (bestseller !== undefined) product.bestseller = bestseller === "true" || bestseller === true;
+  if (sizes !== undefined) {
+    product.sizes = typeof sizes === "string" ? JSON.parse(sizes) : sizes;
+  }
+
+  await product.save();
+  return product;
+};
+
+
 export const updateStockService = async ({ productId, stock }) => {
   const parsedStock = Number(stock);
   if (isNaN(parsedStock) || parsedStock < 0) {

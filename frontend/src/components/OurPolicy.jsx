@@ -9,12 +9,12 @@ const OurPolicy = () => {
       desc: "Delivered to your doorstep in minutes from local dark stores.",
     },
     {
-      icon: <ShieldCheck className="w-6 h-6 text-[#0C831F]" />,
+      icon: <ShieldCheck className="w-6 h-6 text-cyan-600" />,
       title: "🛡 100% Sealed & Authentic",
       desc: "Directly sourced products checked for freshness & quality.",
     },
     {
-      icon: <RefreshCw className="w-6 h-6 text-emerald-600" />,
+      icon: <RefreshCw className="w-6 h-6 text-cyan-600" />,
       title: "⚡ Instant Refunds & Returns",
       desc: "No questions asked instant refunds directly back to source.",
     },
@@ -26,16 +26,16 @@ const OurPolicy = () => {
         {policies.map((policy, idx) => (
           <div
             key={idx}
-            className="flex items-center gap-4 p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:shadow-md transition-all"
+            className="flex items-center gap-4 p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/80 shadow-xs hover:shadow-md transition-all"
           >
-            <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-600 flex items-center justify-center shrink-0">
               {policy.icon}
             </div>
             <div>
-              <h4 className="text-sm font-bold text-slate-900 mb-0.5">
+              <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100 mb-0.5">
                 {policy.title}
               </h4>
-              <p className="text-xs text-slate-500 font-medium">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                 {policy.desc}
               </p>
             </div>

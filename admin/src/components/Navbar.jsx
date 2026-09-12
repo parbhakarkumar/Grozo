@@ -195,7 +195,7 @@ const Navbar = ({ setToken, sidebarOpen, setSidebarOpen }) => {
             >
               <div style={{ padding: "12px 16px", borderBottom: "1px solid var(--border)" }}>
                 <div style={{ fontSize: "12px", fontWeight: 600, color: "var(--text-primary)" }}>Admin Panel</div>
-                <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "2px" }}>Cartivo v2.1</div>
+                <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "2px" }}>Grozo Admin v2.1</div>
               </div>
               <button
                 id="logout-btn"

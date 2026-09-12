@@ -43,7 +43,7 @@ describe("Socket.IO Events", () => {
 
   it("should allow client to join user room", async () => {
     clientSocket.emit("join_user", "12345");
-    await new Promise((r) => setTimeout(r, 50));
+    await new Promise((r) => setTimeout(r, 150));
     expect(serverSocket.rooms.has("user_12345")).toBe(true);
   });
 

@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -12,6 +13,11 @@ export default {
         outfit: ['Outfit', 'sans-serif'],
       },
       colors: {
+        brand: {
+          DEFAULT: '#0891B2',   // cyan-600
+          light:   '#22d3ee',   // cyan-400
+          dark:    '#0e7490',   // cyan-700
+        },
         luxury: {
           50: '#F9F9FB',
           100: '#F4F4F6',

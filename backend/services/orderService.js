@@ -1,6 +1,8 @@
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 import productModel from "../models/productModel.js";
+import trackingModel from "../models/trackingModel.js";
+import { generateTrackingId, initializeTrackingForOrder } from "./trackingService.js";
 import Stripe from "stripe";
 
 const currency = "inr";
@@ -52,28 +54,52 @@ const restoreStock = async (items) => {
   }
 };
 
-export const placeOrderService = async ({ userId, address, amount, items }) => {
-  const riskScore = calculateRiskScore("COD", amount);
+export const placeOrderService = async ({ 
+  userId, 
+  address, 
+  amount, 
+  items, 
+  paymentMethod = "COD", 
+  payment = false, 
+  transactionId = "", 
+  paymentDetails = {} 
+}) => {
+  const method = paymentMethod ? paymentMethod.toUpperCase() : "COD";
+  const isPaid = payment === true || method === "UPI" || method === "ONLINE";
+  const riskScore = calculateRiskScore(method, amount);
   const deliveryOtp = Math.floor(1000 + Math.random() * 9000).toString();
+  const trackingId = generateTrackingId();
 
   const newOrder = await orderModel.create({
     items,
     address,
     amount,
     userId,
-    paymentMethod: "COD",
-    payment: false,
+    paymentMethod: method,
+    payment: isPaid,
+    transactionId: transactionId || "",
+    paymentDetails: paymentDetails || {},
+    status: "Confirmed",
+    trackingId,
+    courierPartner: "Grozo Express Logistics",
     date: new Date(),
     riskScore,
     deliveryOtp,
     statusHistory: [
       {
-        status: "Order Placed",
+        status: "Confirmed",
         timestamp: new Date(),
-        note: `COD Order placed. Risk level: ${riskScore}`,
+        note: `${method} Order confirmed. ${isPaid ? `Payment received via ${method} (Ref: ${transactionId || 'Verified'}). ` : ''}Tracking ID: ${trackingId}. Risk level: ${riskScore}`,
       },
     ],
   });
+
+  // Initialize tracking record in DB and trigger geocoding
+  try {
+    await initializeTrackingForOrder(newOrder);
+  } catch (trackErr) {
+    console.warn("Tracking initialization note:", trackErr.message);
+  }
 
   // Deduct inventory stock
   await deductStock(items);
@@ -86,6 +112,7 @@ export const placeOrderService = async ({ userId, address, amount, items }) => {
 
 export const placeOrderStripeService = async ({ userId, address, amount, items, origin }) => {
   const deliveryOtp = Math.floor(1000 + Math.random() * 9000).toString();
+  const trackingId = generateTrackingId();
 
   const newOrder = await orderModel.create({
     items,
@@ -94,17 +121,26 @@ export const placeOrderStripeService = async ({ userId, address, amount, items, 
     userId,
     paymentMethod: "stripe",
     payment: false,
+    status: "Confirmed",
+    trackingId,
+    courierPartner: "Grozo Express Logistics",
     date: new Date(),
     riskScore: "LOW",
     deliveryOtp,
     statusHistory: [
       {
-        status: "Order Placed",
+        status: "Confirmed",
         timestamp: new Date(),
-        note: "Stripe payment checkout initiated",
+        note: `Stripe checkout initiated. Tracking ID: ${trackingId}`,
       },
     ],
   });
+
+  try {
+    await initializeTrackingForOrder(newOrder);
+  } catch (trackErr) {
+    console.warn("Tracking initialization note:", trackErr.message);
+  }
 
   const line_items = items.map((item) => ({
     price_data: {
@@ -157,6 +193,25 @@ export const userOrdersService = async (userId) => {
   return orders;
 };
 
+export const getOrderByIdService = async (orderId, user) => {
+  const order = await orderModel.findById(orderId).lean();
+  if (!order) {
+    const error = new Error("Order not found.");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (user && user.role !== "admin") {
+    if (order.userId?.toString() !== user.id?.toString() && order.userId?.toString() !== user._id?.toString()) {
+      const error = new Error("Access denied. You cannot access this order.");
+      error.statusCode = 403;
+      throw error;
+    }
+  }
+
+  return order;
+};
+
 export const updateStatusService = async ({ orderId, status, note }) => {
   const existingOrder = await orderModel.findById(orderId);
   if (!existingOrder) {
@@ -165,7 +220,6 @@ export const updateStatusService = async ({ orderId, status, note }) => {
     throw error;
   }
 
-  // If status is being marked Delivered without OTP check, ensure warning
   const historyEntry = {
     status,
     timestamp: new Date(),
@@ -182,6 +236,16 @@ export const updateStatusService = async ({ orderId, status, note }) => {
     updateData,
     { new: true, runValidators: true }
   );
+
+  // Keep Tracking document status in sync
+  try {
+    await trackingModel.findOneAndUpdate(
+      { orderId },
+      { status, lastUpdated: new Date() }
+    );
+  } catch (err) {
+    console.warn("Tracking sync note:", err.message);
+  }
 
   return order;
 };
@@ -210,8 +274,8 @@ export const updateOrderTrackingService = async ({
     order.estimatedDelivery = new Date(estimatedDelivery);
   }
 
-  // Update status to Shipped if currently Order Placed or Packing
-  if (["Order Placed", "Packing"].includes(order.status)) {
+  // Update status to Shipped if currently Order Placed, Packing, Pending, or Confirmed
+  if (["Order Placed", "Packing", "Pending", "Confirmed"].includes(order.status)) {
     order.status = "Shipped";
   }
 
@@ -222,6 +286,20 @@ export const updateOrderTrackingService = async ({
   });
 
   await order.save();
+
+  try {
+    await trackingModel.findOneAndUpdate(
+      { orderId },
+      {
+        trackingId: order.trackingId,
+        deliveryPartner: order.courierPartner,
+        status: order.status,
+        lastUpdated: new Date(),
+      }
+    );
+  } catch (err) {
+    console.warn("Tracking sync note:", err.message);
+  }
   return order;
 };
 

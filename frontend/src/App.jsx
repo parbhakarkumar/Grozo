@@ -1,5 +1,17 @@
 import React, { useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// ── Layouts ──────────────────────────────────────────────
+import UserLayout from "./layouts/UserLayout";
+import AdminLayout from "./layouts/AdminLayout";
+
+// ── Route Guards ─────────────────────────────────────────
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
+
+// ── User / Shopping Pages ─────────────────────────────────
 import Home from "./Pages/Home";
 import Collection from "./Pages/Collection";
 import About from "./Pages/About";
@@ -10,27 +22,35 @@ import Login from "./Pages/Login";
 import PlaceOrder from "./Pages/PlaceOrder";
 import Orders from "./Pages/Orders";
 import Profile from "./Pages/Profile";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import SearchBar from "./components/SearchBar";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Settings from "./Pages/Settings";
 import Verify from "./Pages/Verify";
+import Wishlist from "./Pages/Wishlist";
+import UserOrderTracking from "./Pages/UserOrderTracking";
 
-import FloatingCartBar from "./components/FloatingCartBar";
+// ── Admin Pages ───────────────────────────────────────────
+import AdminDashboard  from "./admin/AdminDashboard";
+import AdminOrders     from "./admin/AdminOrders";
+import AdminTracking   from "./admin/AdminTracking";
+import AdminProducts   from "./admin/AdminProducts";
+import AdminCategories from "./admin/AdminCategories";
+import AdminAddProduct from "./admin/AdminAddProduct";
+import AdminEditProduct from "./admin/AdminEditProduct";
+import AdminUsers      from "./admin/AdminUsers";
+import AdminAnalytics  from "./admin/AdminAnalytics";
+import AdminSettings   from "./admin/AdminSettings";
+import AdminProfile    from "./admin/AdminProfile";
 
-// Component to scroll to top automatically on every route change
+// ── Auto scroll-to-top on every route change ──────────────
 const ScrollToTop = () => {
   const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   return null;
 };
 
+// ─────────────────────────────────────────────────────────
 const App = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-[#F4F6F8] text-slate-900 font-sans pb-16 sm:pb-20">
+    <>
       <ScrollToTop />
       <ToastContainer
         position="bottom-right"
@@ -44,36 +64,65 @@ const App = () => {
         pauseOnHover
         theme="colored"
       />
-      
-      {/* Sticky Full-width Navigation & Search */}
-      <Navbar />
-      <SearchBar />
 
-      {/* Main Page Container */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/collection" element={<Collection />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
+      <Routes>
+
+        {/* ── STANDALONE AUTH PAGE (no layout wrapper) ── */}
+        <Route path="/login"  element={<Login />} />
+        <Route path="/verify" element={<Verify />} />
+
+        {/* ── USER / SHOPPING LAYOUT ─────────────────────
+            All shopping pages share the same Navbar + Footer
+        ─────────────────────────────────────────────────── */}
+        <Route element={<UserLayout />}>
+          <Route path="/"               element={<Home />} />
+          <Route path="/shop"           element={<Home />} />
+          <Route path="/products"       element={<Collection />} />
+          <Route path="/collection"     element={<Collection />} />
+          <Route path="/about"          element={<About />} />
+          <Route path="/contact"        element={<Contact />} />
           <Route path="/product/:productId" element={<Product />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/place-order" element={<PlaceOrder />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/verify" element={<Verify />} />
-        </Routes>
-      </main>
 
-      {/* Floating Bottom Quick-Commerce Cart Bar */}
-      <FloatingCartBar />
+          {/* Auth-protected user pages */}
+          <Route path="/wishlist"     element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
+          <Route path="/cart"         element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+          <Route path="/checkout"     element={<ProtectedRoute><PlaceOrder /></ProtectedRoute>} />
+          <Route path="/place-order"  element={<ProtectedRoute><PlaceOrder /></ProtectedRoute>} />
+          <Route path="/orders"       element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+          <Route path="/orders/:orderId/tracking" element={<ProtectedRoute><UserOrderTracking /></ProtectedRoute>} />
+          <Route path="/profile"      element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/settings"     element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+        </Route>
 
-      {/* Footer Container */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Footer />
-      </div>
-    </div>
+        {/* ── ADMIN LAYOUT ───────────────────────────────
+            All admin pages share the dark sidebar + topbar
+            Protected: role must be "admin"
+        ─────────────────────────────────────────────────── */}
+        <Route
+          path="/admin"
+          element={<AdminRoute><AdminLayout /></AdminRoute>}
+        >
+          {/* Redirect /admin → /admin/dashboard */}
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="dashboard"          element={<AdminDashboard />} />
+          <Route path="orders"             element={<AdminOrders />} />
+          <Route path="tracking"           element={<AdminTracking />} />
+          <Route path="tracking/:orderId"  element={<AdminTracking />} />
+          <Route path="products"           element={<AdminProducts />} />
+          <Route path="products/add"       element={<AdminAddProduct />} />
+          <Route path="products/edit/:productId" element={<AdminEditProduct />} />
+          <Route path="categories"         element={<AdminCategories />} />
+          <Route path="users"              element={<AdminUsers />} />
+          <Route path="analytics"          element={<AdminAnalytics />} />
+          <Route path="settings"           element={<AdminSettings />} />
+          <Route path="profile"            element={<AdminProfile />} />
+        </Route>
+
+        {/* ── FALLBACK ─────────────────────────────────── */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+
+      </Routes>
+    </>
   );
 };
 

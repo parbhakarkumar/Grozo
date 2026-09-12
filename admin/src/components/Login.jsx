@@ -72,7 +72,7 @@ const Login = ({ setToken }) => {
             Welcome back
           </h1>
           <p style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
-            Sign in to the <span style={{ color: "var(--accent-light)", fontWeight: 600 }}>Cartivo</span> Admin Portal
+            Sign in to the <span style={{ color: "var(--accent-light)", fontWeight: 600 }}>Grozo</span> Admin Portal
           </p>
         </div>
 
@@ -165,6 +165,47 @@ const Login = ({ setToken }) => {
               </div>
             </div>
 
+            {/* Admin Credentials Quick-Fill Banner */}
+            <div
+              style={{
+                background: "rgba(99, 102, 241, 0.08)",
+                border: "1px solid rgba(99, 102, 241, 0.25)",
+                borderRadius: "10px",
+                padding: "12px",
+                fontSize: "12px",
+              }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                <span style={{ fontWeight: 600, color: "var(--accent-light, #818cf8)", textTransform: "uppercase", fontSize: "11px", letterSpacing: "0.5px" }}>
+                  🔑 Admin Credentials
+                </span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail("admin@cartivo.com");
+                    setPassword("cartivo@admin123");
+                    toast.info("Admin credentials loaded!");
+                  }}
+                  style={{
+                    background: "var(--accent, #6366f1)",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "6px",
+                    padding: "3px 8px",
+                    fontSize: "11px",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                  }}
+                >
+                  Quick Fill
+                </button>
+              </div>
+              <div style={{ color: "var(--text-secondary)", fontFamily: "monospace", fontSize: "11.5px", lineHeight: "1.6" }}>
+                <div>Email: <strong style={{ color: "var(--text-primary)" }}>admin@cartivo.com</strong></div>
+                <div>Password: <strong style={{ color: "var(--text-primary)" }}>cartivo@admin123</strong></div>
+              </div>
+            </div>
+
             {/* Submit */}
             <button
               id="admin-login-btn"
@@ -184,7 +225,7 @@ const Login = ({ setToken }) => {
         </div>
 
         <p style={{ textAlign: "center", marginTop: "20px", fontSize: "12px", color: "var(--text-muted)" }}>
-          Cartivo Admin Portal · Secure Access
+          Grozo Admin Portal · Secure Access
         </p>
       </div>
 

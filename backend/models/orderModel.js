@@ -48,15 +48,19 @@ const orderSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      default: "Order Placed",
+      default: "Confirmed",
       enum: {
         values: [
-          "Order Placed",
-          "Packing",
+          "Pending",
+          "Confirmed",
+          "Processing",
           "Shipped",
+          "Out for Delivery",
           "Out for delivery",
           "Delivered",
           "Cancelled",
+          "Order Placed",
+          "Packing",
           "Returned",
         ],
         message: "{VALUE} is not a valid order status",
@@ -65,12 +69,20 @@ const orderSchema = new mongoose.Schema(
     paymentMethod: {
       type: String,
       required: [true, "Payment method is required"],
-      enum: ["COD", "stripe", "razorpay"],
+      enum: ["COD", "stripe", "razorpay", "UPI", "ONLINE", "online", "upi"],
     },
     payment: {
       type: Boolean,
       required: true,
       default: false,
+    },
+    transactionId: {
+      type: String,
+      default: "",
+    },
+    paymentDetails: {
+      type: Object,
+      default: {},
     },
     date: {
       type: Date,

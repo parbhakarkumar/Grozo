@@ -64,15 +64,12 @@ const Login = () => {
         }
       }
 
-      // 3. Fallback profile if offline/mock
+      // 3. Fallback profile if backend offline
       if (!profileData) {
         profileData = {
           name: "Google Member",
-          email: "member@cartivo.studio",
+          email: "member@grozo.in",
           role: "user",
-          phone: "+91 98765 43210",
-          joinedDate: new Date().toISOString(),
-          tier: "VIP Studio Member",
         };
       }
       if (!authToken) {
@@ -84,8 +81,10 @@ const Login = () => {
       localStorage.setItem("token", authToken);
       localStorage.setItem("user_profile", JSON.stringify(profileData));
 
-      toast.success(`Welcome to Cartivo, ${profileData.name || "Member"}!`);
-      navigate("/profile");
+      toast.success(`Welcome, ${profileData.name || "Member"}! 🎉`);
+      // Role-based redirect: admin → dashboard, user → shop
+      const loginRole = profileData?.role || "user";
+      navigate(loginRole === "admin" ? "/admin/dashboard" : "/shop");
     } catch (error) {
       console.error(error);
       toast.error(error.message || "Google authentication failed.");
@@ -138,7 +137,7 @@ const Login = () => {
       localStorage.setItem("token", authToken);
       localStorage.setItem("user_profile", JSON.stringify(demoUser));
       toast.success(`Signed in with Google as ${demoUser.name}!`);
-      navigate("/profile");
+      navigate(demoUser.role === "admin" ? "/admin/dashboard" : "/");
     } finally {
       setGoogleLoading(false);
     }
@@ -151,6 +150,8 @@ const Login = () => {
     try {
       if (currState === "Sign Up") {
         let registered = false;
+
+        let registeredRole = "user";
 
         // 1. Try Backend API
         if (backendUrl) {
@@ -171,6 +172,7 @@ const Login = () => {
               setUser(profileData);
               localStorage.setItem("token", authToken);
               localStorage.setItem("user_profile", JSON.stringify(profileData));
+              registeredRole = profileData.role || "user";
               registered = true;
             } else {
               toast.error(response.data.message);
@@ -200,19 +202,20 @@ const Login = () => {
           localStorage.setItem("user_profile", JSON.stringify(profileData));
         }
 
-        toast.success(`Welcome to Cartivo, ${name}! Your profile is ready.`);
-        navigate("/profile");
+        toast.success(`Welcome to Grozo, ${name}! Your account is ready.`);
+        navigate(registeredRole === "admin" ? "/admin/dashboard" : "/");
 
       } else {
         // Sign In Flow
         let loggedIn = false;
+        let activeProfile = null;
 
         if (backendUrl) {
           try {
             const response = await axios.post(backendUrl + "/api/user/login", { email, password });
             if (response.data.success) {
               const authToken = response.data.token || "token_" + Date.now();
-              const profileData = response.data.user || {
+              activeProfile = response.data.user || {
                 name: email.split("@")[0].replace(".", " "),
                 email: email.trim().toLowerCase(),
                 role: "user",
@@ -222,9 +225,9 @@ const Login = () => {
               };
 
               setToken(authToken);
-              setUser(profileData);
+              setUser(activeProfile);
               localStorage.setItem("token", authToken);
-              localStorage.setItem("user_profile", JSON.stringify(profileData));
+              localStorage.setItem("user_profile", JSON.stringify(activeProfile));
               loggedIn = true;
             } else {
               toast.error(response.data.message || "Invalid credentials");
@@ -239,7 +242,7 @@ const Login = () => {
         if (!loggedIn) {
           const authToken = "auth_token_" + Date.now();
           const savedProfile = JSON.parse(localStorage.getItem("user_profile") || "null");
-          const profileData = savedProfile && savedProfile.email === email
+          activeProfile = savedProfile && savedProfile.email === email
             ? savedProfile
             : {
                 name: email.split("@")[0].replace(".", " "),
@@ -251,13 +254,15 @@ const Login = () => {
               };
 
           setToken(authToken);
-          setUser(profileData);
+          setUser(activeProfile);
           localStorage.setItem("token", authToken);
-          localStorage.setItem("user_profile", JSON.stringify(profileData));
+          localStorage.setItem("user_profile", JSON.stringify(activeProfile));
         }
 
         toast.success("Signed in successfully!");
-        navigate("/profile");
+        // Role-based redirect: admin → dashboard, user → store home
+        const loginRole = activeProfile?.role || "user";
+        navigate(loginRole === "admin" ? "/admin/dashboard" : "/");
       }
     } catch (error) {
       console.error(error);
@@ -269,25 +274,26 @@ const Login = () => {
 
   useEffect(() => {
     if (token) {
-      navigate("/profile");
+      const role = user?.role || "user";
+      navigate(role === "admin" ? "/admin/dashboard" : "/");
     }
   }, [token]);
 
   return (
     <div className="py-12 sm:py-20 flex items-center justify-center animate-fade-in">
-      <div className="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 border border-zinc-200/80 shadow-luxury">
+      <div className="w-full max-w-md bg-white dark:bg-slate-800/90 rounded-3xl p-8 sm:p-10 border border-zinc-200/80 dark:border-slate-700 shadow-luxury transition-colors">
         
         {/* Brand Header */}
         <div className="text-center mb-8">
-          <div className="w-10 h-10 rounded-xl bg-zinc-950 text-white flex items-center justify-center font-serif text-xl font-bold mx-auto mb-3 shadow-sm">
-            C
+          <div className="w-10 h-10 rounded-xl bg-cyan-600 text-amber-300 flex items-center justify-center font-sans text-xl font-bold mx-auto mb-3 shadow-sm">
+            G
           </div>
-          <h2 className="font-editorial text-2xl sm:text-3xl text-zinc-950 font-medium mb-1">
+          <h2 className="font-editorial text-2xl sm:text-3xl text-zinc-950 dark:text-white font-medium mb-1">
             {currState === "Sign Up" ? "Create An Account" : "Welcome Back"}
           </h2>
-          <p className="text-xs text-zinc-500 font-light">
+          <p className="text-xs text-zinc-500 dark:text-slate-400 font-light">
             {currState === "Sign Up"
-              ? "Join Cartivo Studio for bespoke recommendations and order tracking."
+              ? "Join Grozo for 8-min grocery deliveries, express checkout, and instant tracking."
               : "Sign in to access your saved orders, wishlist, and bag."}
           </p>
         </div>
@@ -298,7 +304,7 @@ const Login = () => {
             type="button"
             onClick={() => googleLoginHandler()}
             disabled={googleLoading || loading}
-            className="w-full flex items-center justify-center gap-3 bg-white hover:bg-zinc-50 active:bg-zinc-100 border border-zinc-200 text-zinc-800 rounded-2xl py-3 px-4 text-xs font-semibold tracking-wider transition-all shadow-xs hover:border-zinc-300 disabled:opacity-60"
+            className="w-full flex items-center justify-center gap-3 bg-white dark:bg-slate-700 hover:bg-zinc-50 dark:hover:bg-slate-600 active:bg-zinc-100 border border-zinc-200 dark:border-slate-600 text-zinc-800 dark:text-slate-100 rounded-2xl py-3 px-4 text-xs font-semibold tracking-wider transition-all shadow-xs hover:border-zinc-300 dark:hover:border-slate-500 disabled:opacity-60"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path
@@ -326,22 +332,22 @@ const Login = () => {
 
         {/* Divider */}
         <div className="relative flex items-center justify-center mb-6">
-          <div className="border-t border-zinc-200 w-full"></div>
-          <span className="bg-white px-3 text-[11px] font-medium text-zinc-400 uppercase tracking-wider shrink-0">
+          <div className="border-t border-zinc-200 dark:border-slate-700 w-full"></div>
+          <span className="bg-white dark:bg-slate-850 px-3 text-[11px] font-medium text-zinc-400 dark:text-slate-400 uppercase tracking-wider shrink-0">
             or with email
           </span>
-          <div className="border-t border-zinc-200 w-full"></div>
+          <div className="border-t border-zinc-200 dark:border-slate-700 w-full"></div>
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex items-center p-1 bg-zinc-100 rounded-2xl mb-6">
+        <div className="flex items-center p-1 bg-zinc-100 dark:bg-slate-700 rounded-2xl mb-6">
           <button
             type="button"
             onClick={() => setCurrState("Login")}
             className={`flex-1 py-2 rounded-xl text-xs font-semibold tracking-wider transition-all ${
               currState === "Login"
-                ? "bg-white text-zinc-950 shadow-xs"
-                : "text-zinc-500 hover:text-zinc-900"
+                ? "bg-white dark:bg-slate-800 text-zinc-950 dark:text-white shadow-xs"
+                : "text-zinc-500 dark:text-slate-400 hover:text-zinc-900 dark:hover:text-white"
             }`}
           >
             Sign In
@@ -351,8 +357,8 @@ const Login = () => {
             onClick={() => setCurrState("Sign Up")}
             className={`flex-1 py-2 rounded-xl text-xs font-semibold tracking-wider transition-all ${
               currState === "Sign Up"
-                ? "bg-white text-zinc-950 shadow-xs"
-                : "text-zinc-500 hover:text-zinc-900"
+                ? "bg-white dark:bg-slate-800 text-zinc-950 dark:text-white shadow-xs"
+                : "text-zinc-500 dark:text-slate-400 hover:text-zinc-900 dark:hover:text-white"
             }`}
           >
             Create Account
@@ -364,7 +370,7 @@ const Login = () => {
           
           {currState === "Sign Up" && (
             <div>
-              <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-600 mb-1.5 block">
+              <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-600 dark:text-slate-300 mb-1.5 block">
                 Full Name
               </label>
               <div className="relative flex items-center">
@@ -375,14 +381,14 @@ const Login = () => {
                   value={name}
                   type="text"
                   placeholder="e.g. Eleanor Vance"
-                  className="w-full bg-zinc-50 border border-zinc-200 rounded-xl pl-10 pr-4 py-3 text-xs text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-950 transition-colors"
+                  className="w-full bg-zinc-50 dark:bg-slate-700/60 border border-zinc-200 dark:border-slate-600 rounded-xl pl-10 pr-4 py-3 text-xs text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-slate-400 focus:outline-none focus:border-cyan-500 transition-colors"
                 />
               </div>
             </div>
           )}
 
           <div>
-            <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-600 mb-1.5 block">
+            <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-600 dark:text-slate-300 mb-1.5 block">
               Email Address
             </label>
             <div className="relative flex items-center">
@@ -393,18 +399,18 @@ const Login = () => {
                 value={email}
                 type="email"
                 placeholder="e.g. name@example.com"
-                className="w-full bg-zinc-50 border border-zinc-200 rounded-xl pl-10 pr-4 py-3 text-xs text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-950 transition-colors"
+                className="w-full bg-zinc-50 dark:bg-slate-700/60 border border-zinc-200 dark:border-slate-600 rounded-xl pl-10 pr-4 py-3 text-xs text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-slate-400 focus:outline-none focus:border-cyan-500 transition-colors"
               />
             </div>
           </div>
 
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-600">
+              <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-600 dark:text-slate-300">
                 Password
               </label>
               {currState === "Login" && (
-                <span className="text-[11px] text-zinc-500 hover:text-zinc-950 cursor-pointer">
+                <span className="text-[11px] text-zinc-500 dark:text-slate-400 hover:text-cyan-600 cursor-pointer">
                   Forgot?
                 </span>
               )}
@@ -417,12 +423,12 @@ const Login = () => {
                 value={password}
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
-                className="w-full bg-zinc-50 border border-zinc-200 rounded-xl pl-10 pr-10 py-3 text-xs text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-950 transition-colors"
+                className="w-full bg-zinc-50 dark:bg-slate-700/60 border border-zinc-200 dark:border-slate-600 rounded-xl pl-10 pr-10 py-3 text-xs text-zinc-900 dark:text-white placeholder:text-zinc-400 dark:placeholder:text-slate-400 focus:outline-none focus:border-cyan-500 transition-colors"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 text-zinc-400 hover:text-zinc-700"
+                className="absolute right-3.5 text-zinc-400 hover:text-zinc-700 dark:hover:text-slate-300"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -433,7 +439,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-zinc-800 disabled:bg-zinc-600 text-white text-xs font-semibold tracking-widest uppercase py-3.5 px-6 rounded-xl transition-all shadow-md active:scale-[0.99] mt-2"
+            className="w-full inline-flex items-center justify-center gap-2 bg-cyan-600 hover:bg-cyan-700 disabled:bg-slate-500 text-white text-xs font-semibold tracking-widest uppercase py-3.5 px-6 rounded-xl transition-all shadow-md active:scale-[0.99] mt-2"
           >
             {loading ? (
               <span>Authenticating...</span>
@@ -446,8 +452,11 @@ const Login = () => {
           </button>
         </form>
 
+
+
+
         {/* Footer info */}
-        <p className="text-[11px] text-center text-zinc-400 mt-6 font-light">
+        <p className="text-[11px] text-center text-zinc-400 dark:text-slate-500 mt-5 font-light">
           By continuing, you agree to our Terms of Service & Privacy Policy.
         </p>
 

@@ -4,6 +4,7 @@ import {
   placeOrderStripeService,
   allOrdersService,
   userOrdersService,
+  getOrderByIdService,
   updateStatusService,
   verifyStripePaymentService,
   updateOrderTrackingService,
@@ -20,13 +21,17 @@ const placeOrder = asyncHandler(async (req, res) => {
   // Emit real-time socket events
   const io = req.app.get("io");
   if (io) {
+    const isUpi = newOrder.paymentMethod === "UPI" || newOrder.paymentMethod === "ONLINE";
+    const paymentLabel = isUpi ? "UPI Paid" : "COD";
     io.to("admin_room").emit("new_order", {
       order: newOrder,
-      message: `New COD Order #${newOrder._id.toString().slice(-6)} received!`,
+      message: `New ${paymentLabel} Order #${newOrder._id.toString().slice(-6)} received!`,
     });
     io.to(`user_${req.body.userId}`).emit("user_order_placed", {
       order: newOrder,
-      message: "Your order has been placed successfully!",
+      message: isUpi
+        ? "Your UPI payment has been verified and order placed!"
+        : "Your order has been placed successfully!",
     });
   }
 
@@ -34,6 +39,8 @@ const placeOrder = asyncHandler(async (req, res) => {
     success: true,
     message: "Order placed successfully.",
     orderId: newOrder._id,
+    paymentMethod: newOrder.paymentMethod,
+    payment: newOrder.payment,
   });
 });
 
@@ -226,13 +233,59 @@ const verifyStripePayment = asyncHandler(async (req, res) => {
   }
 });
 
+// ─────────────────────────────────────────────
+// GET /api/order/:id — Get single order
+// ─────────────────────────────────────────────
+const getOrderById = asyncHandler(async (req, res) => {
+  const orderId = req.params.id || req.params.orderId;
+  const order = await getOrderByIdService(orderId, req.user);
+
+  return res.status(200).json({
+    success: true,
+    order,
+  });
+});
+
+// ─────────────────────────────────────────────
+// PATCH /api/admin/orders/:id/status
+// ─────────────────────────────────────────────
+const patchOrderStatus = asyncHandler(async (req, res) => {
+  const orderId = req.params.id || req.body.orderId;
+  const { status, note } = req.body;
+
+  const order = await updateStatusService({ orderId, status, note });
+
+  const io = req.app.get("io");
+  if (io) {
+    const payload = {
+      orderId: order._id,
+      status: order.status,
+      order,
+    };
+    io.to("admin_room").emit("order_status_updated", payload);
+    io.to(`user_${order.userId}`).emit("order_status_updated", {
+      ...payload,
+      message: `Your order status changed to "${order.status}"`,
+    });
+    io.to(`order_${order._id}`).emit("order_status_updated", payload);
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "Order status updated.",
+    order,
+  });
+});
+
 export {
   placeOrder,
   placeOrderStripe,
   placeOrderRazorpay,
   allOrders,
   userOrders,
+  getOrderById,
   updateStatus,
+  patchOrderStatus,
   updateTracking,
   verifyDeliveryOtp,
   cancelOrder,
