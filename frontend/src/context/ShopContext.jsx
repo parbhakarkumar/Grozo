@@ -111,6 +111,7 @@ export const getProductPriceForSize = (product, size) => {
 
 const ShopContextProvider = (props) => {
   const currency = "₹";
+  const delivery_fee = 20;
   const rawBackendUrl =
     import.meta.env.VITE_BACKEND_URL ||
     import.meta.env.VITE_API_URL ||
@@ -480,6 +481,7 @@ const ShopContextProvider = (props) => {
     products,
     currency,
     delivery_fee,
+    deliveryFee: delivery_fee,
     search,
     setSearch,
     showSearch,
