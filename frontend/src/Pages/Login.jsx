@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Mail, Lock, User, Eye, EyeOff, ArrowRight, Sparkles, CheckCircle2 } from "lucide-react";
+import { Mail, Lock, User, Eye, EyeOff, ArrowRight, Sparkles, CheckCircle2, ArrowLeft } from "lucide-react";
 import { useGoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
@@ -10,7 +11,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const { navigate, setToken, token, backendUrl, setUser } = useContext(ShopContext);
+  const { navigate, setToken, token, backendUrl, setUser, setAuthSession, user, logout } = useContext(ShopContext);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -76,13 +77,16 @@ const Login = () => {
         authToken = "google_auth_" + Date.now();
       }
 
-      setToken(authToken);
-      setUser(profileData);
-      localStorage.setItem("token", authToken);
-      localStorage.setItem("user_profile", JSON.stringify(profileData));
+      if (setAuthSession) {
+        setAuthSession(authToken, profileData);
+      } else {
+        setToken(authToken);
+        setUser(profileData);
+        localStorage.setItem("token", authToken);
+        localStorage.setItem("user_profile", JSON.stringify(profileData));
+      }
 
       toast.success(`Welcome, ${profileData.name || "Member"}! 🎉`);
-      // Role-based redirect: admin → dashboard, user → shop
       const loginRole = profileData?.role || "user";
       navigate(loginRole === "admin" ? "/admin/dashboard" : "/shop");
     } catch (error) {
@@ -132,10 +136,14 @@ const Login = () => {
       }
 
       const authToken = "google_token_" + Date.now();
-      setToken(authToken);
-      setUser(demoUser);
-      localStorage.setItem("token", authToken);
-      localStorage.setItem("user_profile", JSON.stringify(demoUser));
+      if (setAuthSession) {
+        setAuthSession(authToken, demoUser);
+      } else {
+        setToken(authToken);
+        setUser(demoUser);
+        localStorage.setItem("token", authToken);
+        localStorage.setItem("user_profile", JSON.stringify(demoUser));
+      }
       toast.success(`Signed in with Google as ${demoUser.name}!`);
       navigate(demoUser.role === "admin" ? "/admin/dashboard" : "/");
     } finally {
@@ -168,23 +176,33 @@ const Login = () => {
                 tier: "VIP Studio Member",
               };
 
-              setToken(authToken);
-              setUser(profileData);
-              localStorage.setItem("token", authToken);
-              localStorage.setItem("user_profile", JSON.stringify(profileData));
+              if (setAuthSession) {
+                setAuthSession(authToken, profileData);
+              } else {
+                setToken(authToken);
+                setUser(profileData);
+                localStorage.setItem("token", authToken);
+                localStorage.setItem("user_profile", JSON.stringify(profileData));
+              }
               registeredRole = profileData.role || "user";
               registered = true;
             } else {
-              toast.error(response.data.message);
+              toast.error(response.data.message || "Registration failed");
               setLoading(false);
               return;
             }
           } catch (apiErr) {
             console.warn("Backend registration sync note:", apiErr.message);
+            const msg = apiErr.response?.data?.message;
+            if (msg) {
+              toast.error(msg);
+              setLoading(false);
+              return;
+            }
           }
         }
 
-        // 2. Local Fallback if backend offline
+        // 2. Local Fallback only if backend is completely offline
         if (!registered) {
           const authToken = "auth_token_" + Date.now();
           const profileData = {
@@ -196,10 +214,14 @@ const Login = () => {
             tier: "VIP Studio Member",
           };
 
-          setToken(authToken);
-          setUser(profileData);
-          localStorage.setItem("token", authToken);
-          localStorage.setItem("user_profile", JSON.stringify(profileData));
+          if (setAuthSession) {
+            setAuthSession(authToken, profileData);
+          } else {
+            setToken(authToken);
+            setUser(profileData);
+            localStorage.setItem("token", authToken);
+            localStorage.setItem("user_profile", JSON.stringify(profileData));
+          }
         }
 
         toast.success(`Welcome to Grozo, ${name}! Your account is ready.`);
@@ -224,10 +246,14 @@ const Login = () => {
                 tier: "VIP Studio Member",
               };
 
-              setToken(authToken);
-              setUser(activeProfile);
-              localStorage.setItem("token", authToken);
-              localStorage.setItem("user_profile", JSON.stringify(activeProfile));
+              if (setAuthSession) {
+                setAuthSession(authToken, activeProfile);
+              } else {
+                setToken(authToken);
+                setUser(activeProfile);
+                localStorage.setItem("token", authToken);
+                localStorage.setItem("user_profile", JSON.stringify(activeProfile));
+              }
               loggedIn = true;
             } else {
               toast.error(response.data.message || "Invalid credentials");
@@ -236,6 +262,12 @@ const Login = () => {
             }
           } catch (apiErr) {
             console.warn("Backend login note:", apiErr.message);
+            const msg = apiErr.response?.data?.message;
+            if (msg) {
+              toast.error(msg);
+              setLoading(false);
+              return;
+            }
           }
         }
 
@@ -253,14 +285,17 @@ const Login = () => {
                 tier: "VIP Studio Member",
               };
 
-          setToken(authToken);
-          setUser(activeProfile);
-          localStorage.setItem("token", authToken);
-          localStorage.setItem("user_profile", JSON.stringify(activeProfile));
+          if (setAuthSession) {
+            setAuthSession(authToken, activeProfile);
+          } else {
+            setToken(authToken);
+            setUser(activeProfile);
+            localStorage.setItem("token", authToken);
+            localStorage.setItem("user_profile", JSON.stringify(activeProfile));
+          }
         }
 
         toast.success("Signed in successfully!");
-        // Role-based redirect: admin → dashboard, user → store home
         const loginRole = activeProfile?.role || "user";
         navigate(loginRole === "admin" ? "/admin/dashboard" : "/");
       }
@@ -272,17 +307,52 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    if (token) {
-      const role = user?.role || "user";
-      navigate(role === "admin" ? "/admin/dashboard" : "/");
-    }
-  }, [token]);
-
   return (
-    <div className="py-12 sm:py-20 flex items-center justify-center animate-fade-in">
+    <div className="min-h-screen bg-[#F4F6F8] dark:bg-slate-950 py-10 sm:py-16 px-4 flex flex-col items-center justify-center animate-fade-in transition-colors">
+      
+      {/* Return to Store header */}
+      <div className="w-full max-w-md mb-4 flex items-center justify-between">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-700 dark:text-cyan-400 hover:underline"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Return to Grozo Store</span>
+        </Link>
+        <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+          ⚡ 8-Min Express
+        </span>
+      </div>
+
       <div className="w-full max-w-md bg-white dark:bg-slate-800/90 rounded-3xl p-8 sm:p-10 border border-zinc-200/80 dark:border-slate-700 shadow-luxury transition-colors">
         
+        {/* Active Session Notification if already signed in */}
+        {token && (
+          <div className="mb-6 p-3.5 rounded-2xl bg-cyan-50 dark:bg-cyan-950/40 border border-cyan-200/80 dark:border-cyan-800/60 text-xs">
+            <div className="flex items-center justify-between">
+              <span className="text-cyan-900 dark:text-cyan-200 font-medium">
+                Signed in as <strong>{user?.name || user?.email || "Member"}</strong>
+              </span>
+              <button
+                type="button"
+                onClick={logout}
+                className="text-[11px] font-bold text-red-600 dark:text-red-400 hover:underline"
+              >
+                Sign Out
+              </button>
+            </div>
+            <div className="mt-2.5">
+              <button
+                type="button"
+                onClick={() => navigate(user?.role === "admin" ? "/admin/dashboard" : "/")}
+                className="w-full py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl font-bold text-xs shadow-xs transition-colors"
+              >
+                Continue to Store →
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Brand Header */}
         <div className="text-center mb-8">
           <div className="w-10 h-10 rounded-xl bg-cyan-600 text-amber-300 flex items-center justify-center font-sans text-xl font-bold mx-auto mb-3 shadow-sm">

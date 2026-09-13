@@ -12,6 +12,7 @@ import {
   updateTracking,
   verifyDeliveryOtp,
   cancelOrder,
+  verifyAndPlaceOnlineOrder,
 } from "../controllers/orderController.js";
 import authUser from "../middleware/Auth.js";
 import adminAuth from "../middleware/adminAuth.js";
@@ -31,6 +32,7 @@ orderRouter.post("/admin-cancel", adminAuth, cancelOrder);
 // Payment features
 orderRouter.post("/place", authUser, placeOrder);
 orderRouter.post("/upi", authUser, placeOrder);
+orderRouter.post("/online/verify", authUser, verifyAndPlaceOnlineOrder);
 orderRouter.post("/stripe", authUser, placeOrderStripe);
 orderRouter.post("/razorpay", authUser, placeOrderRazorpay);
 

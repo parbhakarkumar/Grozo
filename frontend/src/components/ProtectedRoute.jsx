@@ -9,8 +9,9 @@ import { ShopContext } from "../context/ShopContext";
 const ProtectedRoute = ({ children }) => {
   const { token } = useContext(ShopContext);
   const location = useLocation();
+  const activeToken = token || localStorage.getItem("token");
 
-  if (!token) {
+  if (!activeToken) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 

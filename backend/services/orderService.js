@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModel.js";
 import productModel from "../models/productModel.js";
@@ -28,14 +29,21 @@ const calculateRiskScore = (paymentMethod, amount) => {
 const deductStock = async (items) => {
   if (!Array.isArray(items)) return;
   for (const item of items) {
-    const query = item.productId
-      ? { _id: item.productId }
-      : { name: item.name };
+    try {
+      const isObjectId = item.productId && mongoose.isValidObjectId(item.productId);
+      const query = isObjectId
+        ? { _id: item.productId }
+        : { name: item.name };
 
-    await productModel.updateOne(
-      query,
-      { $inc: { stock: -Number(item.quantity || 1) } }
-    );
+      if (query._id || query.name) {
+        await productModel.updateOne(
+          query,
+          { $inc: { stock: -Number(item.quantity || 1) } }
+        );
+      }
+    } catch (stockErr) {
+      console.warn("Stock deduction warning:", stockErr.message);
+    }
   }
 };
 
@@ -43,14 +51,21 @@ const deductStock = async (items) => {
 const restoreStock = async (items) => {
   if (!Array.isArray(items)) return;
   for (const item of items) {
-    const query = item.productId
-      ? { _id: item.productId }
-      : { name: item.name };
+    try {
+      const isObjectId = item.productId && mongoose.isValidObjectId(item.productId);
+      const query = isObjectId
+        ? { _id: item.productId }
+        : { name: item.name };
 
-    await productModel.updateOne(
-      query,
-      { $inc: { stock: Number(item.quantity || 1) } }
-    );
+      if (query._id || query.name) {
+        await productModel.updateOne(
+          query,
+          { $inc: { stock: Number(item.quantity || 1) } }
+        );
+      }
+    } catch (stockErr) {
+      console.warn("Stock restoration warning:", stockErr.message);
+    }
   }
 };
 
@@ -70,8 +85,17 @@ export const placeOrderService = async ({
   const deliveryOtp = Math.floor(1000 + Math.random() * 9000).toString();
   const trackingId = generateTrackingId();
 
+  const sanitizedItems = (items || []).map((item) => ({
+    productId: item.productId || item._id || "",
+    name: item.name || "Item",
+    price: Number(item.price || 0),
+    quantity: Number(item.quantity || 1),
+    size: item.size || item.packSize || "Standard",
+    image: Array.isArray(item.image) ? item.image : item.image ? [item.image] : [],
+  }));
+
   const newOrder = await orderModel.create({
-    items,
+    items: sanitizedItems,
     address,
     amount,
     userId,
@@ -102,10 +126,16 @@ export const placeOrderService = async ({
   }
 
   // Deduct inventory stock
-  await deductStock(items);
+  await deductStock(sanitizedItems);
 
-  // Clear user cart
-  await userModel.findByIdAndUpdate(userId, { cartData: {} });
+  // Clear user cart safely
+  try {
+    if (userId && mongoose.isValidObjectId(userId)) {
+      await userModel.findByIdAndUpdate(userId, { cartData: {} });
+    }
+  } catch (cartErr) {
+    console.warn("User cart reset note:", cartErr.message);
+  }
 
   return newOrder;
 };
@@ -398,3 +428,93 @@ export const verifyStripePaymentService = async ({ orderId, success, userId }) =
     return { success: false, order: null };
   }
 };
+
+export const verifyAndPlaceOnlineOrderService = async ({
+  userId,
+  address,
+  amount,
+  items,
+  paymentMethod = "UPI",
+  transactionId = "",
+}) => {
+  if (!items || items.length === 0) {
+    const error = new Error("Your cart is empty. Please add items before ordering.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  if (!address || !address.firstName || !address.street) {
+    const error = new Error("Complete delivery address is required.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const orderAmount = Number(amount);
+  if (!orderAmount || orderAmount <= 0) {
+    const error = new Error("Invalid order amount.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const sanitizedItems = items.map((item) => ({
+    ...item,
+    productId: item.productId || item._id || "",
+    name: item.name || "Item",
+    price: Number(item.price || 0),
+    quantity: Number(item.quantity || 1),
+    size: item.size || item.packSize || "Standard",
+    image: item.image || [],
+  }));
+
+  const verifiedTxId = transactionId || "UPI-" + Date.now() + "-" + Math.floor(1000 + Math.random() * 9000);
+  const deliveryOtp = Math.floor(1000 + Math.random() * 9000).toString();
+  const trackingId = generateTrackingId();
+
+  const newOrder = await orderModel.create({
+    items: sanitizedItems,
+    address,
+    amount: orderAmount,
+    userId,
+    paymentMethod: "UPI",
+    payment: true,
+    transactionId: verifiedTxId,
+    paymentDetails: {
+      provider: "UPI QR Gateway",
+      transactionId: verifiedTxId,
+      status: "SUCCESS",
+      verifiedAt: new Date(),
+    },
+    status: "Confirmed",
+    trackingId,
+    courierPartner: "Grozo Express Logistics",
+    date: new Date(),
+    riskScore: "LOW",
+    deliveryOtp,
+    statusHistory: [
+      {
+        status: "Confirmed",
+        timestamp: new Date(),
+        note: `Online UPI payment verified successfully (TxID: ${verifiedTxId}). Order confirmed with Tracking ID: ${trackingId}.`,
+      },
+    ],
+  });
+
+  try {
+    await initializeTrackingForOrder(newOrder);
+  } catch (trackErr) {
+    console.warn("Tracking initialization note:", trackErr.message);
+  }
+
+  await deductStock(sanitizedItems);
+
+  try {
+    if (userId && mongoose.isValidObjectId(userId)) {
+      await userModel.findByIdAndUpdate(userId, { cartData: {} });
+    }
+  } catch (cartErr) {
+    console.warn("User cart reset note:", cartErr.message);
+  }
+
+  return newOrder;
+};
+

@@ -14,11 +14,20 @@ const Card = ({ children, className = "" }) => (
 );
 
 const Cart = () => {
-  const { products, currency, cartItems, updateQuantity, getProductPriceForSize } = useContext(ShopContext);
+  const { 
+    products, 
+    currency, 
+    cartItems, 
+    updateQuantity, 
+    getProductPriceForSize,
+    appliedPromo,
+    applyPromoCode,
+    removePromoCode,
+    getDiscountAmount,
+  } = useContext(ShopContext);
   const { t } = useSettings();
   const [cartData, setCartData] = useState([]);
   const [promoCode, setPromoCode] = useState("");
-  const [promoApplied, setPromoApplied] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,12 +46,12 @@ const Cart = () => {
 
   const totalItems = cartData.reduce((acc, curr) => acc + curr.quantity, 0);
 
-  const handlePromo = () => {
-    if (promoCode.trim().toUpperCase() === "GROZO10") {
-      setPromoApplied(true);
-      import("react-toastify").then(({ toast }) => toast.success("Promo code applied! ₹10 off your order."));
-    } else {
-      import("react-toastify").then(({ toast }) => toast.error("Invalid promo code."));
+  const handlePromo = (e) => {
+    e?.preventDefault();
+    if (!promoCode.trim()) return;
+    const success = applyPromoCode(promoCode.trim());
+    if (success) {
+      setPromoCode("");
     }
   };
 
@@ -179,31 +188,42 @@ const Cart = () => {
                 <div className="flex items-center gap-2 mb-3">
                   <Tag size={14} className="text-cyan-600" />
                   <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">Promo Code</p>
-                  {promoApplied && (
+                  {appliedPromo && (
                     <span className="ml-auto text-xs font-bold text-cyan-700 dark:text-cyan-300 bg-cyan-50 dark:bg-cyan-950/50 px-2 py-0.5 rounded">Applied!</span>
                   )}
                 </div>
-                {!promoApplied ? (
-                  <div className="flex gap-2">
+                {!appliedPromo ? (
+                  <form onSubmit={handlePromo} className="flex gap-2">
                     <input
                       type="text"
                       value={promoCode}
                       onChange={e => setPromoCode(e.target.value)}
-                      placeholder="Enter promo code (try GROZO10)"
-                      className="flex-1 px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                      placeholder="Enter promo code (e.g. GROZO20, GROZO10)"
+                      className="flex-1 px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 uppercase font-mono"
                     />
                     <button
-                      onClick={handlePromo}
-                      className="px-4 py-2 text-sm font-semibold bg-slate-800 dark:bg-slate-700 text-white rounded-lg hover:bg-slate-900 dark:hover:bg-slate-600 transition-colors whitespace-nowrap"
+                      type="submit"
+                      className="px-4 py-2 text-sm font-semibold bg-slate-800 dark:bg-slate-700 text-white rounded-lg hover:bg-slate-900 dark:hover:bg-slate-600 transition-colors whitespace-nowrap cursor-pointer"
                     >
                       Apply
                     </button>
-                  </div>
+                  </form>
                 ) : (
                   <div className="flex items-center justify-between text-sm">
-                    <span className="font-mono font-semibold text-cyan-600 dark:text-cyan-400">{promoCode.toUpperCase()}</span>
-                    <span className="text-slate-600 dark:text-slate-300">−₹10 discount applied</span>
-                    <button onClick={() => { setPromoApplied(false); setPromoCode(""); }} className="text-xs text-slate-400 hover:text-red-500">Remove</button>
+                    <div>
+                      <span className="font-mono font-bold text-cyan-600 dark:text-cyan-400">{appliedPromo.code}</span>
+                      <span className="text-xs text-slate-500 dark:text-slate-400 ml-2">({appliedPromo.title})</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-cyan-700 dark:text-cyan-400 font-bold">−{currency}{getDiscountAmount()}</span>
+                      <button 
+                        type="button" 
+                        onClick={removePromoCode} 
+                        className="text-xs text-slate-400 hover:text-red-500 cursor-pointer font-medium"
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </div>
                 )}
               </Card>

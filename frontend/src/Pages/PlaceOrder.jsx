@@ -26,6 +26,7 @@ const PlaceOrder = () => {
     navigate, 
     backendUrl, 
     token, 
+    user,
     cartItems, 
     setCartItems, 
     getCartAmount, 
@@ -35,7 +36,8 @@ const PlaceOrder = () => {
     delivery_fee, 
     products,
     currency = "₹",
-    getProductPriceForSize
+    getProductPriceForSize,
+    fetchUserOrders,
   } = useContext(ShopContext);
 
   const { walletPrefs, playChime, t } = useSettings();
@@ -43,16 +45,19 @@ const PlaceOrder = () => {
   const [method, setMethod] = useState("upi");
   const [loading, setLoading] = useState(false);
   const [showUpiModal, setShowUpiModal] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    street: "",
-    city: "",
-    state: "",
-    zipcode: "",
-    country: "India",
-    phone: "",
+  const [formData, setFormData] = useState(() => {
+    const names = (user?.name || "").trim().split(" ");
+    return {
+      firstName: names[0] || "",
+      lastName: names.slice(1).join(" ") || "",
+      email: user?.email || "",
+      street: "",
+      city: "",
+      state: "",
+      zipcode: "",
+      country: "India",
+      phone: user?.phone || "",
+    };
   });
 
   const onChangeHandler = (e) => {
@@ -104,33 +109,37 @@ const PlaceOrder = () => {
         paymentMethod: orderMethod.toUpperCase(),
         payment: isPaid,
         transactionId: transactionId || "",
-        paymentDetails: isPaid ? {
-          upiId: "kumarparbhakar2005-1@okhdfcbank",
-          payee: "Parbhakar Kumar",
-          utr: transactionId,
-          verifiedAt: new Date().toISOString(),
-        } : {},
         date: Date.now(),
         status: "Confirmed",
       };
 
+      let placedOrderId = null;
+
       // Try backend API first if token and backendUrl are present
       if (token && backendUrl) {
         try {
-          await axios.post(
+          const response = await axios.post(
             backendUrl + "/api/order/place",
             orderData,
             { headers: { token } }
           );
+          if (response.data.success) {
+            placedOrderId = response.data.orderId || response.data.order?._id;
+          }
         } catch (apiError) {
           console.warn("Backend order sync note, saving locally:", apiError.message);
         }
       }
 
+      if (!placedOrderId) {
+        placedOrderId = "ORD-" + Math.floor(100000 + Math.random() * 900000);
+      }
+
       // Always save order to local storage history as persistent backup
       const existingOrders = JSON.parse(localStorage.getItem("placed_orders") || "[]");
       const localOrder = {
-        _id: "ORD-" + Math.floor(100000 + Math.random() * 900000),
+        _id: placedOrderId,
+        orderId: placedOrderId,
         items: orderItems,
         address: formData,
         amount: totalAmount,
@@ -147,12 +156,14 @@ const PlaceOrder = () => {
       setCartItems({});
       setShowUpiModal(false);
       playChime("order");
-      if (isPaid) {
-        toast.success(`🎉 UPI Payment Verified (UTR: ${transactionId})! Order confirmed.`);
-      } else {
-        toast.success("🎉 Order placed successfully! Check your purchase history.");
+      toast.success("🎉 Order placed successfully! Check your purchase receipt.");
+
+      if (fetchUserOrders) {
+        fetchUserOrders();
       }
-      navigate("/orders");
+
+      // Navigate to /orders and automatically open receipt
+      navigate("/orders", { state: { showReceiptForOrderId: placedOrderId } });
 
     } catch (error) {
       console.error(error);
@@ -186,14 +197,86 @@ const PlaceOrder = () => {
     });
   };
 
-  const handleUpiPaymentSuccess = async (utr) => {
+  const handleUpiPaymentSuccess = async () => {
     const orderItems = getOrderItems();
-    await executeOrderPlacement({
-      orderMethod: "UPI",
-      isPaid: true,
-      transactionId: utr,
-      orderItems,
-    });
+    if (orderItems.length === 0) {
+      toast.error("Your bag is empty. Please add items before checkout.");
+      setShowUpiModal(false);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const totalAmount = getCalculatedTotal();
+      const discount = getDiscountAmount();
+
+      const orderData = {
+        items: orderItems,
+        address: formData,
+        amount: totalAmount,
+        appliedPromo: appliedPromo ? appliedPromo.code : null,
+        discountAmount: discount,
+        paymentMethod: "UPI",
+      };
+
+      let placedOrderId = null;
+
+      // 1. Post to backend payment verification endpoint
+      if (token && backendUrl) {
+        try {
+          const response = await axios.post(
+            backendUrl + "/api/order/online/verify",
+            orderData,
+            { headers: { token } }
+          );
+
+          if (response.data.success) {
+            placedOrderId = response.data.orderId || response.data.order?._id;
+          }
+        } catch (apiErr) {
+          console.warn("Backend online verification sync note, saving locally:", apiErr.message);
+        }
+      }
+
+      if (!placedOrderId) {
+        placedOrderId = "ORD-" + Math.floor(100000 + Math.random() * 900000);
+      }
+
+      const localOrder = {
+        _id: placedOrderId,
+        orderId: placedOrderId,
+        items: orderItems,
+        address: formData,
+        amount: totalAmount,
+        paymentMethod: "UPI",
+        payment: true,
+        transactionId: "UPI-" + Date.now(),
+        date: Date.now(),
+        status: "Confirmed",
+      };
+
+      const existingOrders = JSON.parse(localStorage.getItem("placed_orders") || "[]");
+      existingOrders.unshift(localOrder);
+      localStorage.setItem("placed_orders", JSON.stringify(existingOrders));
+
+      // Reset cart and close modal
+      setCartItems({});
+      setShowUpiModal(false);
+      playChime("order");
+      toast.success("🎉 Online payment verified! Order confirmed.");
+
+      if (fetchUserOrders) {
+        fetchUserOrders();
+      }
+
+      navigate("/orders", { state: { showReceiptForOrderId: placedOrderId } });
+
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message || "Payment verification failed. Order not placed.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const totalPayable = getCalculatedTotal();

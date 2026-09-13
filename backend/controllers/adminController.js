@@ -71,7 +71,7 @@ const getDashboardStats = asyncHandler(async (req, res) => {
 
     // Product counts
     productModel.countDocuments(),
-    productModel.countDocuments({ available: true }).catch(() => productModel.countDocuments()),
+    productModel.countDocuments({ stock: { $gt: 0 } }).catch(() => productModel.countDocuments()),
 
     // Recent 10 orders with populated data
     orderModel

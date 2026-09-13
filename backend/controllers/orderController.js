@@ -10,6 +10,7 @@ import {
   updateOrderTrackingService,
   verifyDeliveryOtpService,
   cancelOrderService,
+  verifyAndPlaceOnlineOrderService,
 } from "../services/orderService.js";
 
 // ─────────────────────────────────────────────
@@ -277,8 +278,37 @@ const patchOrderStatus = asyncHandler(async (req, res) => {
   });
 });
 
+// ─────────────────────────────────────────────
+// POST /api/order/online/verify — Verified Online/UPI Payment Order
+// ─────────────────────────────────────────────
+const verifyAndPlaceOnlineOrder = asyncHandler(async (req, res) => {
+  const newOrder = await verifyAndPlaceOnlineOrderService(req.body);
+
+  const io = req.app.get("io");
+  if (io) {
+    io.to("admin_room").emit("new_order", {
+      order: newOrder,
+      message: `New UPI Paid Order #${newOrder._id.toString().slice(-6)} received!`,
+    });
+    io.to(`user_${req.body.userId}`).emit("user_order_placed", {
+      order: newOrder,
+      message: "Your online payment has been verified and your order is confirmed!",
+    });
+  }
+
+  return res.status(201).json({
+    success: true,
+    message: "Payment verified and order confirmed successfully.",
+    orderId: newOrder._id,
+    order: newOrder,
+    paymentMethod: newOrder.paymentMethod,
+    payment: newOrder.payment,
+  });
+});
+
 export {
   placeOrder,
+  verifyAndPlaceOnlineOrder,
   placeOrderStripe,
   placeOrderRazorpay,
   allOrders,
@@ -291,3 +321,4 @@ export {
   cancelOrder,
   verifyStripePayment,
 };
+

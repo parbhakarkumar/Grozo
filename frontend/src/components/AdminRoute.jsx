@@ -11,12 +11,21 @@ import { ShieldOff, ArrowLeft, Home } from "lucide-react";
  */
 const AdminRoute = ({ children }) => {
   const { token, user, isAdmin } = useContext(ShopContext);
+  const activeToken = token || localStorage.getItem("token");
 
-  if (!token) {
+  if (!activeToken) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!isAdmin) {
+  let currentRole = user?.role;
+  if (!currentRole) {
+    try {
+      const stored = JSON.parse(localStorage.getItem("user_profile") || "null");
+      currentRole = stored?.role;
+    } catch {}
+  }
+
+  if (currentRole !== "admin" && !isAdmin) {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
         <div className="max-w-md w-full text-center space-y-6">

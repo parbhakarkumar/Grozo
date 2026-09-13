@@ -45,6 +45,15 @@ export const AVAILABLE_PROMOS = [
     type: "FREE_DELIVERY",
     badge: "EXPRESS",
   },
+  {
+    code: "GROZO10",
+    title: "Flat ₹10 OFF",
+    desc: "Instant ₹10 savings on everyday essentials",
+    flatDiscount: 10,
+    minOrder: 0,
+    type: "FLAT",
+    badge: "SAVINGS",
+  },
 ];
 
 // ─────────────────────────────────────────────
@@ -134,7 +143,26 @@ const ShopContextProvider = (props) => {
   });
 
   const navigate = useNavigate();
-  const isAdmin = user?.role === "admin";
+  const isAdmin = user?.role === "admin" || (() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("user_profile") || "null");
+      return saved?.role === "admin";
+    } catch {
+      return false;
+    }
+  })();
+
+  const setAuthSession = (authToken, profileData) => {
+    if (authToken) {
+      localStorage.setItem("token", authToken);
+      setToken(authToken);
+    }
+    if (profileData) {
+      localStorage.setItem("user_profile", JSON.stringify(profileData));
+      setUser(profileData);
+    }
+  };
+
 
   // ─────────────────────────────────────────────
   // Promo Code Engine
@@ -468,6 +496,7 @@ const ShopContextProvider = (props) => {
     setUser,
     role: user?.role || "user",
     isAdmin,
+    setAuthSession,
     logout,
     updateUserProfile,
     fetchUserProfile,
