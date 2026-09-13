@@ -111,8 +111,11 @@ export const getProductPriceForSize = (product, size) => {
 
 const ShopContextProvider = (props) => {
   const currency = "₹";
-  const delivery_fee = 20;
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
+  const rawBackendUrl =
+    import.meta.env.VITE_BACKEND_URL ||
+    import.meta.env.VITE_API_URL ||
+    "http://localhost:4000";
+  const backendUrl = rawBackendUrl.replace(/\/+$/, "");
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});

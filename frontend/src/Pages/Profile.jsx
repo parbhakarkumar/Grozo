@@ -147,9 +147,8 @@ const Profile = () => {
           <div className="flex flex-wrap items-center gap-3 self-start md:self-center">
             {isAdmin && (
               <a
-                href="http://localhost:5174"
-                target="_blank"
-                rel="noreferrer"
+                href={import.meta.env.VITE_ADMIN_URL || "/admin/dashboard"}
+                target="_self"
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold transition-all shadow-sm active:scale-95"
               >
                 <Shield className="w-3.5 h-3.5" />

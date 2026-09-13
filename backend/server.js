@@ -61,10 +61,14 @@ const explicitlyAllowedOrigins = [
   process.env.ADMIN_URL,
 ].filter(Boolean);
 
-// Dynamic origin validator: allows any localhost/127.0.0.1 port in dev or configured origins
+// Dynamic origin validator: allows any localhost/127.0.0.1 port in dev, vercel.app domains, or configured origins
 const isOriginAllowed = (origin) => {
   if (!origin) return true; // Mobile apps, curl, Postman
   if (explicitlyAllowedOrigins.includes(origin)) return true;
+  try {
+    const hostname = new URL(origin).hostname;
+    if (hostname.endsWith(".vercel.app")) return true;
+  } catch {}
   if (isDev && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
     return true;
   }
